@@ -1,0 +1,70 @@
+{
+  "title": "AI Quiz",
+  "questions": [
+    {
+      "question": "Wat betekent de afkorting 'AI'?",
+      "options": ["Automatische Interface", "Artificial Intelligence", "Advanced Internet", "Algoritmische Instructie"],
+      "correctIndex": 1
+    },
+    {
+      "question": "Wat is een 'large language model' (LLM)?",
+      "options": [
+        "Een computer met heel veel opslagruimte",
+        "Een AI-model dat getraind is om tekst te begrijpen en te genereren",
+        "Een programmeertaal voor AI",
+        "Een database vol woordenboeken"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Welk bedrijf maakte de chatbot Claude?",
+      "options": ["OpenAI", "Google", "Anthropic", "Meta"],
+      "correctIndex": 2
+    },
+    {
+      "question": "Wat is 'machine learning'?",
+      "options": [
+        "Machines die letterlijk leren praten",
+        "Een manier waarop computers patronen leren herkennen uit data",
+        "Het handmatig programmeren van elke regel",
+        "Een soort robotarm in een fabriek"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Wat noemen we het verschijnsel waarbij een AI iets verzint dat niet klopt, maar het wel zelfverzekerd presenteert?",
+      "options": ["Een bug", "Een hallucinatie", "Een crash", "Een update"],
+      "correctIndex": 1
+    },
+    {
+      "question": "Wat is een 'prompt' bij het gebruik van AI-chatbots?",
+      "options": [
+        "De naam van het AI-model",
+        "De invoer/vraag die je aan de AI geeft",
+        "Een foutmelding",
+        "Een instelling in de browser"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Waar staat GPT (zoals in ChatGPT) onder andere voor?",
+      "options": [
+        "General Purpose Tool",
+        "Generative Pre-trained Transformer",
+        "Global Processing Technique",
+        "Graphic Programming Terminal"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Wat is een risico dat vaak genoemd wordt bij AI-gegenereerde content?",
+      "options": [
+        "Het kost nooit stroom",
+        "Het kan bevooroordeeld (biased) zijn door de trainingsdata",
+        "Het werkt alleen offline",
+        "Het is altijd 100% correct"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}
