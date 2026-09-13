@@ -297,10 +297,11 @@ startQuizBtn.addEventListener("click", async () => {
 
 const LANE_HEIGHT = 50;
 const TRACK_PADDING = 20;
+const MIN_TRACK_HEIGHT = 220; // keeps the finish flag clear of the mini-join widget for small team counts
 
 function renderTrack() {
   track.innerHTML = "";
-  track.style.height = `${teams.length * LANE_HEIGHT + TRACK_PADDING * 2}px`;
+  track.style.height = `${Math.max(teams.length * LANE_HEIGHT + TRACK_PADDING * 2, MIN_TRACK_HEIGHT)}px`;
   const laneHeight = LANE_HEIGHT;
 
   teams.forEach((team, i) => {
