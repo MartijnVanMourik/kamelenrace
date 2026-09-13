@@ -331,18 +331,21 @@ button:hover { background: #a8551f; }
   list-style: none;
   margin: 0 0 24px;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px 10px;
 }
 
 .reveal-team-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  padding: 6px 10px;
   border-radius: 8px;
   background: var(--sand);
+  font-size: 0.85rem;
+  line-height: 1.3;
 }
 
 .reveal-team-row.correct {
@@ -350,15 +353,14 @@ button:hover { background: #a8551f; }
 }
 
 .reveal-team-dot {
-  width: 14px;
-  height: 14px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
 .reveal-team-name {
   font-weight: 600;
-  min-width: 100px;
 }
 
 .reveal-team-tally {
@@ -368,6 +370,7 @@ button:hover { background: #a8551f; }
 .reveal-team-advance {
   margin-left: auto;
   font-weight: 600;
+  font-size: 0.78rem;
   color: #2c8a2c;
 }
 
