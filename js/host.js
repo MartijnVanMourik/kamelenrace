@@ -37,6 +37,8 @@ const startQuizBtn = document.getElementById("start-quiz-btn");
 
 const track = document.getElementById("track");
 const raceBackdrop = document.getElementById("race-backdrop");
+const raceSidebar = document.getElementById("race-sidebar");
+const trackWrapper = document.getElementById("track-wrapper");
 const questionPanel = document.getElementById("question-panel");
 const questionText = document.getElementById("question-text");
 const optionsList = document.getElementById("options-list");
@@ -300,14 +302,20 @@ startQuizBtn.addEventListener("click", async () => {
 const LANE_HEIGHT = 50;
 const TRACK_TOP_PADDING = 80; // the title now lives above the track entirely, this only needs room for the spectators strip
 const TRACK_BOTTOM_PADDING = 20;
+const MAX_TEAMS = 10; // track height is always based on this, so it never resizes as questions/reveal alternate
+
+function syncBackdropWidth() {
+  const wrapperLeft = trackWrapper.getBoundingClientRect().left;
+  raceBackdrop.style.left = `${-wrapperLeft}px`;
+  raceBackdrop.style.width = `${window.innerWidth}px`;
+}
 
 function renderTrack() {
   track.innerHTML = "";
   raceBackdrop.innerHTML = "";
-  const trackHeight = teams.length * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING;
-  track.style.height = `${trackHeight}px`;
-  raceBackdrop.style.height = `${trackHeight}px`;
   const laneHeight = LANE_HEIGHT;
+  syncBackdropWidth();
+  syncTrackHeightToSidebar();
 
   const spectators = document.createElement("div");
   spectators.id = "track-spectators";
@@ -386,6 +394,7 @@ function showQuestion(index) {
   revealPanel.classList.add("hidden");
   timerBar.style.width = "100%";
   answersProgress.textContent = "";
+  syncTrackHeightToSidebar();
 
   gameRef.child(`answers/${index}`).on("value", (snap) => {
     const count = snap.val() ? Object.keys(snap.val()).length : 0;
@@ -452,6 +461,15 @@ function renderRevealPanel(q, tally) {
     <p class="reveal-answer">Juist antwoord: <strong>${q.options[q.correctIndex]}</strong></p>
     <ul class="reveal-team-list">${rows.join("")}</ul>
   `;
+  syncTrackHeightToSidebar();
+}
+
+function syncTrackHeightToSidebar() {
+  const baseHeight = MAX_TEAMS * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING;
+  const sidebarHeight = raceSidebar.getBoundingClientRect().height;
+  const finalHeight = Math.max(baseHeight, sidebarHeight);
+  track.style.height = `${finalHeight}px`;
+  raceBackdrop.style.height = `${finalHeight}px`;
 }
 
 async function tallyAndReveal(index) {
@@ -509,7 +527,11 @@ restartBtn.addEventListener("click", () => {
 });
 
 window.addEventListener("resize", () => {
-  if (!raceScreen.classList.contains("hidden") && questionsData) updateCamelPositions();
+  if (!raceScreen.classList.contains("hidden") && questionsData) {
+    syncBackdropWidth();
+    syncTrackHeightToSidebar();
+    updateCamelPositions();
+  }
 });
 
 async function resumeGame(code) {
