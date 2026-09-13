@@ -154,7 +154,7 @@ button:hover { background: #a8551f; }
   right: 0;
   top: 0;
   background-image: url("../assets/spectators.png");
-  background-repeat: no-repeat;
+  background-repeat: repeat-x;
   background-position: 24px bottom;
   background-size: auto 60%;
 }
