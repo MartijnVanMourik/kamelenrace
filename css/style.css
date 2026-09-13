@@ -166,10 +166,12 @@ button:hover { background: #a8551f; }
   background-color: #ecd6a3;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cellipse cx='18' cy='40' rx='5' ry='3' fill='%23a3835c' opacity='0.5'/%3E%3Cellipse cx='95' cy='20' rx='3' ry='2' fill='%23a3835c' opacity='0.4'/%3E%3Cellipse cx='60' cy='90' rx='4' ry='3' fill='%23a3835c' opacity='0.45'/%3E%3Cellipse cx='120' cy='110' rx='3' ry='2' fill='%23a3835c' opacity='0.4'/%3E%3Cellipse cx='30' cy='118' rx='2.5' ry='2' fill='%23a3835c' opacity='0.35'/%3E%3Cellipse cx='105' cy='70' rx='2.5' ry='2' fill='%23a3835c' opacity='0.35'/%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='40'%3E%3Cpath d='M0 20 C50 4 100 4 150 20 C200 36 250 36 300 20 L300 40 L0 40 Z' fill='%23c9a468' opacity='0.4'/%3E%3C/svg%3E");
-  background-repeat: repeat, repeat-x;
-  background-size: 140px 140px, 300px 40px;
-  background-position: 0 0, bottom left;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='46'%3E%3Cpath d='M0 23 C56.7 3 113.3 3 170 23 C226.7 43 283.3 43 340 23 L340 46 L0 46 Z' fill='%23d8b57e' opacity='0.28'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='40'%3E%3Cpath d='M0 20 C50 4 100 4 150 20 C200 36 250 36 300 20 L300 40 L0 40 Z' fill='%23c9a468' opacity='0.4'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='26'%3E%3Cpath d='M0 13 C30 2 60 2 90 13 C120 24 150 24 180 13 L180 26 L0 26 Z' fill='%23b8905c' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat, repeat-x, repeat-x, repeat-x;
+  background-size: 140px 140px, 340px 46px, 300px 40px, 180px 26px;
+  background-position: 0 0, 0 bottom, 90px bottom, 190px bottom;
 }
 
 .track-top-line {
