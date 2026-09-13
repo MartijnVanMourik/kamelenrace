@@ -152,16 +152,17 @@ startQuizBtn.addEventListener("click", async () => {
 });
 
 const LANE_HEIGHT = 50;
+const TRACK_PADDING = 20;
 
 function renderTrack() {
   track.innerHTML = "";
-  track.style.height = `${teams.length * LANE_HEIGHT}px`;
+  track.style.height = `${teams.length * LANE_HEIGHT + TRACK_PADDING * 2}px`;
   const laneHeight = LANE_HEIGHT;
 
   teams.forEach((team, i) => {
     const lane = document.createElement("div");
     lane.className = "lane";
-    lane.style.top = `${i * laneHeight}px`;
+    lane.style.top = `${TRACK_PADDING + i * laneHeight}px`;
     lane.style.height = `${laneHeight}px`;
 
     const camel = document.createElement("div");
