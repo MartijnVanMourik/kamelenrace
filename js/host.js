@@ -296,18 +296,18 @@ startQuizBtn.addEventListener("click", async () => {
 });
 
 const LANE_HEIGHT = 50;
-const TRACK_PADDING = 20;
-const MIN_TRACK_HEIGHT = 220; // keeps the finish flag clear of the mini-join widget for small team counts
+const TRACK_TOP_PADDING = 140; // reserves space so no lane ever passes under the mini-join widget
+const TRACK_BOTTOM_PADDING = 20;
 
 function renderTrack() {
   track.innerHTML = "";
-  track.style.height = `${Math.max(teams.length * LANE_HEIGHT + TRACK_PADDING * 2, MIN_TRACK_HEIGHT)}px`;
+  track.style.height = `${teams.length * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING}px`;
   const laneHeight = LANE_HEIGHT;
 
   teams.forEach((team, i) => {
     const lane = document.createElement("div");
     lane.className = "lane";
-    lane.style.top = `${TRACK_PADDING + i * laneHeight}px`;
+    lane.style.top = `${TRACK_TOP_PADDING + i * laneHeight}px`;
     lane.style.height = `${laneHeight}px`;
 
     const camel = document.createElement("div");
