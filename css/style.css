@@ -446,6 +446,8 @@ button:hover { background: #a8551f; }
 
 .reveal-team-tally {
   color: #6b5a3f;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .reveal-team-advance {
@@ -453,6 +455,8 @@ button:hover { background: #a8551f; }
   font-weight: 600;
   font-size: 0.78rem;
   color: #2c8a2c;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* --- Winner screen --- */

@@ -385,6 +385,7 @@ function renderTrack() {
 }
 
 const TRACK_SIDE_MARGIN = 24; // keeps camels from starting/finishing flush against the track's own edges
+const CAMEL_HALF_WIDTH = 23; // half of .camel-badge's 46px, so the badge centers on the start/finish line instead of its back edge touching it
 
 function updateCamelPositions() {
   const totalQuestions = questionsData.questions.length;
@@ -404,7 +405,10 @@ function updateCamelPositions() {
   teams.forEach((team) => {
     const camel = document.getElementById(`camel-${team.id}`);
     const progress = team.position / totalQuestions;
-    camel.style.left = `${TRACK_SIDE_MARGIN + progress * travelWidth}px`;
+    // Center the camel badge on its start/finish x, rather than anchoring its
+    // back edge there — otherwise the whole camel looks like it's already past
+    // the start line at 0%, and lands a full badge-width beyond the finish line at 100%.
+    camel.style.left = `${startX - CAMEL_HALF_WIDTH + progress * travelWidth}px`;
     camel.classList.toggle("label-flip", progress > 0.5);
   });
 }
