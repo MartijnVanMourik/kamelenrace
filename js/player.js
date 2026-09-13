@@ -109,7 +109,46 @@ gameCodeInput.addEventListener("input", () => {
   tryLoadTeams();
 });
 
-if (prefillCode) tryLoadTeams();
+function loadStoredSession() {
+  try {
+    return JSON.parse(localStorage.getItem("kamelenrace_player"));
+  } catch {
+    return null;
+  }
+}
+
+async function tryAutoRejoin() {
+  const stored = loadStoredSession();
+  if (!stored) return false;
+  if (prefillCode && prefillCode.toUpperCase() !== stored.gameCode) return false;
+
+  const statusSnap = await db.ref(`games/${stored.gameCode}/status`).once("value");
+  if (statusSnap.val() === null) {
+    localStorage.removeItem("kamelenrace_player");
+    return false;
+  }
+
+  gameCode = stored.gameCode;
+  playerId = stored.playerId;
+  gameRef = db.ref(`games/${gameCode}`);
+
+  const teamsSnap = await gameRef.child("teams").once("value");
+  currentTeams = teamsSnap.val() || {};
+  const team = currentTeams[stored.teamId];
+
+  waitingName.textContent = stored.name;
+  waitingTeam.textContent = team ? team.name : "?";
+
+  await loadQuestions();
+  showScreen(waitingScreen);
+  listenForGameUpdates();
+  return true;
+}
+
+(async () => {
+  const rejoined = await tryAutoRejoin();
+  if (!rejoined && prefillCode) tryLoadTeams();
+})();
 
 joinBtn.addEventListener("click", async () => {
   const code = gameCodeInput.value.trim().toUpperCase();

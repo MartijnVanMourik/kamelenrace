@@ -234,7 +234,12 @@ createGameBtn.addEventListener("click", async () => {
     createdAt: firebase.database.ServerValue.TIMESTAMP,
   });
 
+  history.replaceState(null, "", `${location.pathname}?game=${gameCode}`);
   setupScreen.classList.add("hidden");
+  showLobbyScreen();
+});
+
+function showLobbyScreen() {
   lobbyScreen.classList.remove("hidden");
 
   gameCodeDisplay.textContent = gameCode;
@@ -244,7 +249,7 @@ createGameBtn.addEventListener("click", async () => {
   new QRCode(qrCodeEl, { text: joinUrl, width: 220, height: 220 });
 
   listenForPlayers();
-});
+}
 
 function listenForPlayers() {
   gameRef.child("players").on("value", (snap) => {
@@ -365,7 +370,7 @@ function showQuestion(index) {
   };
 }
 
-async function tallyAndReveal(index) {
+async function computeQuestionTally(index) {
   const q = questionsData.questions[index];
   const snap = await gameRef.child(`answers/${index}`).once("value");
   const answers = snap.val() || {};
@@ -383,7 +388,32 @@ async function tallyAndReveal(index) {
     if (ans.choice === q.correctIndex) tally[player.teamId].correct++;
   });
 
-  const rows = [];
+  return { q, tally };
+}
+
+function renderRevealPanel(q, tally) {
+  const rows = teams.map((team) => {
+    const t = tally[team.id];
+    const majorityCorrect = t.total > 0 && t.correct / t.total > 0.5;
+    return `
+      <li class="reveal-team-row ${majorityCorrect ? "correct" : ""}">
+        <span class="reveal-team-dot" style="background:${team.color}"></span>
+        <span class="reveal-team-name">${team.name}</span>
+        <span class="reveal-team-tally">${t.correct}/${t.total} goed</span>
+        ${majorityCorrect ? '<span class="reveal-team-advance">stap vooruit!</span>' : ""}
+      </li>
+    `;
+  });
+
+  revealPanel.classList.remove("hidden");
+  revealSummary.innerHTML = `
+    <p class="reveal-answer">Juist antwoord: <strong>${q.options[q.correctIndex]}</strong></p>
+    <ul class="reveal-team-list">${rows.join("")}</ul>
+  `;
+}
+
+async function tallyAndReveal(index) {
+  const { q, tally } = await computeQuestionTally(index);
   const updates = {};
 
   teams.forEach((team) => {
@@ -396,24 +426,11 @@ async function tallyAndReveal(index) {
       camel.classList.add("moving");
       setTimeout(() => camel.classList.remove("moving"), 1400);
     }
-    rows.push(`
-      <li class="reveal-team-row ${majorityCorrect ? "correct" : ""}">
-        <span class="reveal-team-dot" style="background:${team.color}"></span>
-        <span class="reveal-team-name">${team.name}</span>
-        <span class="reveal-team-tally">${t.correct}/${t.total} goed</span>
-        ${majorityCorrect ? '<span class="reveal-team-advance">stap vooruit!</span>' : ""}
-      </li>
-    `);
   });
 
   await gameRef.update({ ...updates, status: "reveal" });
   updateCamelPositions();
-
-  revealPanel.classList.remove("hidden");
-  revealSummary.innerHTML = `
-    <p class="reveal-answer">Juist antwoord: <strong>${q.options[q.correctIndex]}</strong></p>
-    <ul class="reveal-team-list">${rows.join("")}</ul>
-  `;
+  renderRevealPanel(q, tally);
 }
 
 nextBtn.addEventListener("click", async () => {
@@ -444,6 +461,7 @@ function showWinnerScreen() {
 
 restartBtn.addEventListener("click", () => {
   if (gameRef) gameRef.off();
+  history.replaceState(null, "", location.pathname);
   winnerScreen.classList.add("hidden");
   setupScreen.classList.remove("hidden");
 });
@@ -451,3 +469,44 @@ restartBtn.addEventListener("click", () => {
 window.addEventListener("resize", () => {
   if (!raceScreen.classList.contains("hidden") && questionsData) updateCamelPositions();
 });
+
+async function resumeGame(code) {
+  const snap = await db.ref(`games/${code}`).once("value");
+  const data = snap.val();
+  if (!data) {
+    history.replaceState(null, "", location.pathname);
+    return;
+  }
+
+  gameCode = code;
+  gameRef = db.ref(`games/${gameCode}`);
+  teams = Object.entries(data.teams || {}).map(([id, t]) => ({
+    id,
+    name: t.name,
+    color: t.color,
+    position: t.position,
+  }));
+
+  if (!questionsData) await loadQuestions();
+  currentQuestionIndex = data.currentQuestionIndex || 0;
+
+  setupScreen.classList.add("hidden");
+
+  if (data.status === "lobby") {
+    showLobbyScreen();
+  } else if (data.status === "question") {
+    raceScreen.classList.remove("hidden");
+    renderTrack();
+    showQuestion(currentQuestionIndex);
+  } else if (data.status === "reveal") {
+    raceScreen.classList.remove("hidden");
+    renderTrack();
+    const { q, tally } = await computeQuestionTally(currentQuestionIndex);
+    renderRevealPanel(q, tally);
+  } else if (data.status === "finished") {
+    showWinnerScreen();
+  }
+}
+
+const resumeCode = new URLSearchParams(location.search).get("game");
+if (resumeCode) resumeGame(resumeCode.toUpperCase());
