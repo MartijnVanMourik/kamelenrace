@@ -263,9 +263,6 @@ button:hover { background: #a8551f; }
   position: absolute;
   left: 0;
   top: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
   transition: left 1.4s ease-in-out;
   animation: bob var(--bob-duration, 0.9s) ease-in-out infinite;
   animation-delay: var(--bob-delay, 0s);
@@ -298,6 +295,10 @@ button:hover { background: #a8551f; }
 }
 
 .camel-label {
+  position: absolute;
+  top: 50%;
+  left: 52px;
+  transform: translateY(-50%);
   background: rgba(255,255,255,0.85);
   padding: 2px 8px;
   border-radius: 6px;
@@ -307,6 +308,13 @@ button:hover { background: #a8551f; }
   max-width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Past halfway down the track, the label would run off the right edge (or
+   under the sidebar) -- flip it to the other side of the camel instead. */
+.camel.label-flip .camel-label {
+  left: auto;
+  right: 52px;
 }
 
 /* --- Question panel --- */

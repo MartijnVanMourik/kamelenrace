@@ -364,6 +364,7 @@ function updateCamelPositions() {
     const camel = document.getElementById(`camel-${team.id}`);
     const progress = team.position / totalQuestions;
     camel.style.left = `${TRACK_SIDE_MARGIN + progress * travelWidth}px`;
+    camel.classList.toggle("label-flip", progress > 0.5);
   });
 }
 
