@@ -104,11 +104,6 @@ joinBtn.addEventListener("click", async () => {
     joinError.classList.remove("hidden");
     return;
   }
-  if (!teamSelect.value) {
-    joinError.textContent = "Kies eerst een team.";
-    joinError.classList.remove("hidden");
-    return;
-  }
 
   const statusSnap = await db.ref(`games/${code}/status`).once("value");
   if (statusSnap.val() === null) {
@@ -118,6 +113,11 @@ joinBtn.addEventListener("click", async () => {
   }
   if (statusSnap.val() !== "lobby") {
     joinError.textContent = "Deze quiz is al gestart.";
+    joinError.classList.remove("hidden");
+    return;
+  }
+  if (!teamSelect.value) {
+    joinError.textContent = "Kies eerst een team.";
     joinError.classList.remove("hidden");
     return;
   }
