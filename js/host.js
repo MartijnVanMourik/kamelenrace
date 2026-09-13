@@ -332,6 +332,28 @@ function renderTrack() {
   topLine.style.top = `${TRACK_TOP_PADDING - 20}px`;
   raceBackdrop.appendChild(topLine);
 
+  const startLine = document.createElement("div");
+  startLine.className = "track-vline";
+  startLine.id = "track-start-line";
+  track.appendChild(startLine);
+
+  const startLabel = document.createElement("div");
+  startLabel.className = "track-vline-label";
+  startLabel.id = "track-start-label";
+  startLabel.textContent = "START";
+  track.appendChild(startLabel);
+
+  const finishLine = document.createElement("div");
+  finishLine.className = "track-vline";
+  finishLine.id = "track-finish-line";
+  track.appendChild(finishLine);
+
+  const finishLabel = document.createElement("div");
+  finishLabel.className = "track-vline-label";
+  finishLabel.id = "track-finish-label";
+  finishLabel.textContent = "FINISH";
+  track.appendChild(finishLabel);
+
   teams.forEach((team, i) => {
     const lane = document.createElement("div");
     lane.className = "lane";
@@ -367,6 +389,17 @@ const TRACK_SIDE_MARGIN = 24; // keeps camels from starting/finishing flush agai
 function updateCamelPositions() {
   const totalQuestions = questionsData.questions.length;
   const travelWidth = track.clientWidth - 80 - TRACK_SIDE_MARGIN;
+  const startX = TRACK_SIDE_MARGIN;
+  const finishX = TRACK_SIDE_MARGIN + travelWidth;
+
+  const startLine = document.getElementById("track-start-line");
+  const finishLine = document.getElementById("track-finish-line");
+  const startLabel = document.getElementById("track-start-label");
+  const finishLabel = document.getElementById("track-finish-label");
+  if (startLine) startLine.style.left = `${startX}px`;
+  if (finishLine) finishLine.style.left = `${finishX}px`;
+  if (startLabel) startLabel.style.left = `${startX}px`;
+  if (finishLabel) finishLabel.style.left = `${finishX}px`;
 
   teams.forEach((team) => {
     const camel = document.getElementById(`camel-${team.id}`);
