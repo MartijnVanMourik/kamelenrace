@@ -80,7 +80,6 @@ const params = new URLSearchParams(location.search);
 const prefillCode = params.get("game");
 if (prefillCode) gameCodeInput.value = prefillCode.toUpperCase();
 
-let teamsLoadedForCode = null;
 let lastCheckedCode = null;
 
 async function tryLoadTeams() {
@@ -102,14 +101,12 @@ async function tryLoadTeams() {
 
   if (statusSnap.val() === null) {
     teamSelect.innerHTML = "";
-    teamsLoadedForCode = null;
     joinError.textContent = "Deze spelcode bestaat niet.";
     joinError.classList.remove("hidden");
     return;
   }
   if (statusSnap.val() === "finished") {
     teamSelect.innerHTML = "";
-    teamsLoadedForCode = null;
     joinError.textContent = "Deze quiz is afgelopen.";
     joinError.classList.remove("hidden");
     return;
@@ -119,7 +116,6 @@ async function tryLoadTeams() {
   if (teams) {
     currentTeams = teams;
     populateTeamSelect(teams);
-    teamsLoadedForCode = code;
     joinError.classList.add("hidden");
   }
 }

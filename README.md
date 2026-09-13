@@ -52,11 +52,13 @@ De live versie staat op GitHub Pages: `https://martijnvanmourik.github.io/kamele
 4. Zodra de muziek stopt, telt de host automatisch per team of de meerderheid het goed had (van wie er daadwerkelijk antwoordde — wie wegvalt telt gewoon niet mee) — zo ja, loopt de kameel van dat team een stap vooruit.
 5. Na de laatste vraag verschijnt het winnende team (of de winnende teams, bij een gelijke stand) op zowel het host- als het spelerscherm, met een illustratie.
 
-Op een breed liggend scherm (digiboard) staan de vraag- en reveal-kaart tijdens de race naast elkaar in plaats van onder elkaar, om beter gebruik te maken van de ruimte.
+Tijdens de race staat de baan links en een vaste zijbalk rechts (QR/spelcode voor laatkomers, plus óf de actieve vraag óf de uitslag — nooit beide tegelijk, om ruimte te sparen). Op een breed digibord schaalt deze indeling mee met de schermbreedte in plaats van gecentreerd te blijven staan, zodat de kamelen niet halverwege het scherm beginnen en de zijbalk mooi tegen de rechterrand aansluit.
 
 ## Vormgeving
 
-De racebaan heeft een woestijnthema: zandkleurig baanoppervlak met verspreide steentjes en gelaagde, naadloos herhalende duinranden (CSS/SVG, geen losse plaatjes), een publieksillustratie tegen de bovenste lijn, en een finishvlag rechtsonder. Alles is los getest op zowel smalle als brede (tot 1920px) schermen zodat niets overlapt of vervormt.
+De racebaan heeft een woestijnthema: zandkleurig baanoppervlak met verspreide steentjes en gelaagde, naadloos herhalende duinranden (CSS/SVG, geen losse plaatjes), een publieksillustratie tegen de bovenste lijn, en een finishvlag rechtsonder. Verticale start- en finishlijnen markeren precies waar de kamelen beginnen en eindigen. De achtergrond (publiek, zand, duinen) loopt altijd tot de volledige breedte van het scherm door — ook onder de zijbalk — terwijl de kamelen, banen en finishvlag zelf in een smallere kolom blijven zodat het spel nooit onder de zijbalk verdwijnt.
+
+De baan houdt altijd rekening met 10 teams in de hoogte, ook bij minder teams — zo springt de baan niet van grootte tussen vraag- en uitslagscherm. Lange teamnamen worden altijd afgekapt met "...", en de naam van een kameel die over de helft van de baan is, klapt om naar de andere kant zodat hij nooit onder de zijbalk of van de baan af loopt. Alles is los getest op zowel smalle als brede (tot 1920px) schermen zodat niets overlapt of vervormt.
 
 ## Eigen vragen aanleveren
 
