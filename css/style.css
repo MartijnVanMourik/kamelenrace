@@ -254,6 +254,9 @@ button:hover { background: #a8551f; }
   font-size: 0.85rem;
   font-weight: 600;
   white-space: nowrap;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* --- Question panel --- */
@@ -339,7 +342,6 @@ button:hover { background: #a8551f; }
 .reveal-team-row {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 6px 8px;
   padding: 6px 10px;
   border-radius: 8px;
@@ -361,6 +363,11 @@ button:hover { background: #a8551f; }
 
 .reveal-team-name {
   font-weight: 600;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .reveal-team-tally {
