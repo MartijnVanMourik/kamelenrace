@@ -304,6 +304,11 @@ function renderTrack() {
   track.style.height = `${teams.length * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING}px`;
   const laneHeight = LANE_HEIGHT;
 
+  const ground = document.createElement("div");
+  ground.id = "track-ground";
+  ground.style.top = `${TRACK_TOP_PADDING - 20}px`;
+  track.appendChild(ground);
+
   const topLine = document.createElement("div");
   topLine.className = "track-top-line";
   topLine.style.top = `${TRACK_TOP_PADDING - 20}px`;

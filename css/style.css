@@ -153,10 +153,23 @@ button:hover { background: #a8551f; }
 
 #track {
   position: relative;
-  background: linear-gradient(to bottom, transparent 0%, transparent 60%, rgba(0,0,0,0.06) 60%);
   border-bottom: 4px dashed #a8814a;
   margin-bottom: 20px;
   overflow: hidden;
+}
+
+#track-ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ecd6a3;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cellipse cx='18' cy='40' rx='5' ry='3' fill='%23a3835c' opacity='0.5'/%3E%3Cellipse cx='95' cy='20' rx='3' ry='2' fill='%23a3835c' opacity='0.4'/%3E%3Cellipse cx='60' cy='90' rx='4' ry='3' fill='%23a3835c' opacity='0.45'/%3E%3Cellipse cx='120' cy='110' rx='3' ry='2' fill='%23a3835c' opacity='0.4'/%3E%3Cellipse cx='30' cy='118' rx='2.5' ry='2' fill='%23a3835c' opacity='0.35'/%3E%3Cellipse cx='105' cy='70' rx='2.5' ry='2' fill='%23a3835c' opacity='0.35'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='34'%3E%3Cpath d='M0 34 Q37 10 75 22 T150 18 T225 24 T300 12 L300 34 Z' fill='%23c9a468' opacity='0.4'/%3E%3C/svg%3E");
+  background-repeat: repeat, repeat-x;
+  background-size: 140px 140px, 300px 34px;
+  background-position: 0 0, bottom left;
 }
 
 .track-top-line {
