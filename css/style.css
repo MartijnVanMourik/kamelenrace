@@ -294,12 +294,32 @@ button:hover { background: #a8551f; }
   width: 100%;
 }
 
+#panels-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 #reveal-panel {
   background: white;
   border-radius: 12px;
   padding: 28px;
-  margin-top: 16px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Wide/landscape digiboard: question and reveal side by side instead of stacked,
+   so there's less vertical scrolling on a screen that's wide but not tall. */
+@media (min-width: 900px) and (orientation: landscape) {
+  #panels-row {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  #panels-row > #question-panel,
+  #panels-row > #reveal-panel {
+    flex: 1;
+    min-width: 0;
+  }
 }
 
 .reveal-answer {
