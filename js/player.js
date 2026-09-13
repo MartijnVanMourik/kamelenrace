@@ -30,6 +30,17 @@ const revealCorrectAnswer = document.getElementById("reveal-correct-answer");
 
 const finishedWinner = document.getElementById("finished-winner");
 
+const CONNECTION_TIMEOUT_MS = 6000;
+const CONNECTION_TIMEOUT_MSG =
+  "Kan geen verbinding maken. Mogelijk zit de klas vol of is er een netwerkprobleem — probeer het zo opnieuw.";
+
+function withTimeout(promise, ms = CONNECTION_TIMEOUT_MS) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error("connection-timeout")), ms)),
+  ]);
+}
+
 function showScreen(el) {
   [joinScreen, waitingScreen, questionScreen, revealScreen, finishedScreen].forEach((s) =>
     s.classList.add("hidden")
@@ -77,7 +88,16 @@ async function tryLoadTeams() {
   if (code.length !== 4 || code === lastCheckedCode) return;
   lastCheckedCode = code;
 
-  const statusSnap = await db.ref(`games/${code}/status`).once("value");
+  let statusSnap;
+  try {
+    statusSnap = await withTimeout(db.ref(`games/${code}/status`).once("value"));
+  } catch {
+    lastCheckedCode = null; // allow retrying this code
+    teamSelect.innerHTML = "";
+    joinError.textContent = CONNECTION_TIMEOUT_MSG;
+    joinError.classList.remove("hidden");
+    return;
+  }
   if (gameCodeInput.value.trim().toUpperCase() !== code) return; // code changed while awaiting
 
   if (statusSnap.val() === null) {
@@ -122,27 +142,33 @@ async function tryAutoRejoin() {
   if (!stored) return false;
   if (prefillCode && prefillCode.toUpperCase() !== stored.gameCode) return false;
 
-  const statusSnap = await db.ref(`games/${stored.gameCode}/status`).once("value");
-  if (statusSnap.val() === null) {
-    localStorage.removeItem("kamelenrace_player");
+  try {
+    const statusSnap = await withTimeout(db.ref(`games/${stored.gameCode}/status`).once("value"));
+    if (statusSnap.val() === null) {
+      localStorage.removeItem("kamelenrace_player");
+      return false;
+    }
+
+    gameCode = stored.gameCode;
+    playerId = stored.playerId;
+    gameRef = db.ref(`games/${gameCode}`);
+
+    const teamsSnap = await withTimeout(gameRef.child("teams").once("value"));
+    currentTeams = teamsSnap.val() || {};
+    const team = currentTeams[stored.teamId];
+
+    waitingName.textContent = stored.name;
+    waitingTeam.textContent = team ? team.name : "?";
+
+    await loadQuestions();
+    showScreen(waitingScreen);
+    listenForGameUpdates();
+    return true;
+  } catch {
+    joinError.textContent = CONNECTION_TIMEOUT_MSG;
+    joinError.classList.remove("hidden");
     return false;
   }
-
-  gameCode = stored.gameCode;
-  playerId = stored.playerId;
-  gameRef = db.ref(`games/${gameCode}`);
-
-  const teamsSnap = await gameRef.child("teams").once("value");
-  currentTeams = teamsSnap.val() || {};
-  const team = currentTeams[stored.teamId];
-
-  waitingName.textContent = stored.name;
-  waitingTeam.textContent = team ? team.name : "?";
-
-  await loadQuestions();
-  showScreen(waitingScreen);
-  listenForGameUpdates();
-  return true;
 }
 
 (async () => {
@@ -165,39 +191,49 @@ joinBtn.addEventListener("click", async () => {
     return;
   }
 
-  const statusSnap = await db.ref(`games/${code}/status`).once("value");
-  if (statusSnap.val() === null) {
-    joinError.textContent = "Deze spelcode bestaat niet.";
+  joinBtn.disabled = true;
+  joinError.classList.add("hidden");
+
+  try {
+    const statusSnap = await withTimeout(db.ref(`games/${code}/status`).once("value"));
+    if (statusSnap.val() === null) {
+      joinError.textContent = "Deze spelcode bestaat niet.";
+      joinError.classList.remove("hidden");
+      return;
+    }
+    if (statusSnap.val() === "finished") {
+      joinError.textContent = "Deze quiz is afgelopen.";
+      joinError.classList.remove("hidden");
+      return;
+    }
+    if (!teamSelect.value) {
+      joinError.textContent = "Kies eerst een team.";
+      joinError.classList.remove("hidden");
+      return;
+    }
+
+    const teamId = teamSelect.value;
+    gameCode = code;
+    gameRef = db.ref(`games/${gameCode}`);
+
+    const newPlayerRef = gameRef.child("players").push();
+    playerId = newPlayerRef.key;
+    await withTimeout(newPlayerRef.set({ name, teamId }));
+
+    localStorage.setItem("kamelenrace_player", JSON.stringify({ gameCode, playerId, teamId, name }));
+
+    waitingName.textContent = name;
+    waitingTeam.textContent = currentTeams[teamId].name;
+
+    await loadQuestions();
+    showScreen(waitingScreen);
+    listenForGameUpdates();
+  } catch {
+    joinError.textContent = CONNECTION_TIMEOUT_MSG;
     joinError.classList.remove("hidden");
-    return;
+  } finally {
+    joinBtn.disabled = false;
   }
-  if (statusSnap.val() === "finished") {
-    joinError.textContent = "Deze quiz is afgelopen.";
-    joinError.classList.remove("hidden");
-    return;
-  }
-  if (!teamSelect.value) {
-    joinError.textContent = "Kies eerst een team.";
-    joinError.classList.remove("hidden");
-    return;
-  }
-
-  const teamId = teamSelect.value;
-  gameCode = code;
-  gameRef = db.ref(`games/${gameCode}`);
-
-  const newPlayerRef = gameRef.child("players").push();
-  playerId = newPlayerRef.key;
-  await newPlayerRef.set({ name, teamId });
-
-  localStorage.setItem("kamelenrace_player", JSON.stringify({ gameCode, playerId, teamId, name }));
-
-  waitingName.textContent = name;
-  waitingTeam.textContent = currentTeams[teamId].name;
-
-  await loadQuestions();
-  showScreen(waitingScreen);
-  listenForGameUpdates();
 });
 
 function listenForGameUpdates() {
