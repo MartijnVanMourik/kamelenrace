@@ -101,18 +101,6 @@ button {
 
 button:hover { background: #a8551f; }
 
-/* --- Race title (mirrors the mini-join widget on the opposite corner) --- */
-
-#race-title {
-  position: fixed;
-  top: 14px;
-  left: 14px;
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #3a2b1a;
-  z-index: 20;
-}
-
 /* --- Mini join widget (visible during the race, for latecomers/reconnects) --- */
 
 #mini-join {

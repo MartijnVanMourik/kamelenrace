@@ -362,7 +362,7 @@ function updateCamelPositions() {
   });
 }
 
-function showQuestion(index) {
+function renderQuestionPanel(index) {
   const q = questionsData.questions[index];
   questionText.textContent = q.question;
   optionsList.innerHTML = "";
@@ -371,6 +371,10 @@ function showQuestion(index) {
     li.textContent = opt;
     optionsList.appendChild(li);
   });
+}
+
+function showQuestion(index) {
+  renderQuestionPanel(index);
 
   revealPanel.classList.add("hidden");
   timerBar.style.width = "100%";
@@ -533,7 +537,11 @@ async function resumeGame(code) {
     raceScreen.classList.remove("hidden");
     renderTrack();
     renderMiniJoin();
+    renderQuestionPanel(currentQuestionIndex);
+    timerBar.style.width = "0%";
     const { q, tally } = await computeQuestionTally(currentQuestionIndex);
+    const answerCount = Object.values(tally).reduce((sum, t) => sum + t.total, 0);
+    answersProgress.textContent = `${answerCount} antwoord(en) binnen`;
     renderRevealPanel(q, tally);
   } else if (data.status === "finished") {
     showWinnerScreen();
