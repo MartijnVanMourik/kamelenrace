@@ -137,7 +137,8 @@ button:hover { background: #a8551f; }
   align-items: center;
   gap: 6px;
   transition: left 1.4s ease-in-out;
-  animation: bob 0.9s ease-in-out infinite;
+  animation: bob var(--bob-duration, 0.9s) ease-in-out infinite;
+  animation-delay: var(--bob-delay, 0s);
 }
 
 .camel.moving {
@@ -216,31 +217,58 @@ button:hover { background: #a8551f; }
 #reveal-panel {
   background: white;
   border-radius: 12px;
-  padding: 20px;
+  padding: 28px;
   margin-top: 16px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-#reveal-buttons {
+.reveal-answer {
+  font-size: 1.2rem;
+  margin: 0 0 20px;
+}
+
+.reveal-team-list {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 10px;
-  margin: 14px 0;
 }
 
-.reveal-toggle {
-  padding: 10px 16px;
+.reveal-team-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
   border-radius: 8px;
-  border: 2px solid #ccc;
-  background: #f0f0f0;
-  color: #3a2b1a;
-  cursor: pointer;
-  font-weight: 600;
+  background: var(--sand);
 }
 
-.reveal-toggle.active {
-  border-color: #2c8a2c;
-  background: #d6f2d6;
+.reveal-team-row.correct {
+  background: #dcf3dc;
+}
+
+.reveal-team-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.reveal-team-name {
+  font-weight: 600;
+  min-width: 100px;
+}
+
+.reveal-team-tally {
+  color: #6b5a3f;
+}
+
+.reveal-team-advance {
+  margin-left: auto;
+  font-weight: 600;
+  color: #2c8a2c;
 }
 
 /* --- Winner screen --- */

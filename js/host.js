@@ -296,6 +296,8 @@ function renderTrack() {
     const camel = document.createElement("div");
     camel.className = "camel";
     camel.id = `camel-${team.id}`;
+    camel.style.setProperty("--bob-delay", `${(Math.random() * 0.9).toFixed(2)}s`);
+    camel.style.setProperty("--bob-duration", `${(0.8 + Math.random() * 0.4).toFixed(2)}s`);
 
     const badge = document.createElement("div");
     badge.className = "camel-badge";
@@ -382,7 +384,7 @@ async function tallyAndReveal(index) {
     if (ans.choice === q.correctIndex) tally[player.teamId].correct++;
   });
 
-  const summaryParts = [];
+  const rows = [];
   const updates = {};
 
   teams.forEach((team) => {
@@ -395,14 +397,24 @@ async function tallyAndReveal(index) {
       camel.classList.add("moving");
       setTimeout(() => camel.classList.remove("moving"), 1400);
     }
-    summaryParts.push(`${team.name}: ${t.correct}/${t.total} goed${majorityCorrect ? " → stap vooruit!" : ""}`);
+    rows.push(`
+      <li class="reveal-team-row ${majorityCorrect ? "correct" : ""}">
+        <span class="reveal-team-dot" style="background:${team.color}"></span>
+        <span class="reveal-team-name">${team.name}</span>
+        <span class="reveal-team-tally">${t.correct}/${t.total} goed</span>
+        ${majorityCorrect ? '<span class="reveal-team-advance">stap vooruit!</span>' : ""}
+      </li>
+    `);
   });
 
   await gameRef.update({ ...updates, status: "reveal" });
   updateCamelPositions();
 
   revealPanel.classList.remove("hidden");
-  revealSummary.innerHTML = `Juist antwoord: <strong>${q.options[q.correctIndex]}</strong><br>` + summaryParts.join("<br>");
+  revealSummary.innerHTML = `
+    <p class="reveal-answer">Juist antwoord: <strong>${q.options[q.correctIndex]}</strong></p>
+    <ul class="reveal-team-list">${rows.join("")}</ul>
+  `;
 }
 
 nextBtn.addEventListener("click", async () => {
