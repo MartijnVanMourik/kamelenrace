@@ -304,6 +304,11 @@ function renderTrack() {
   track.style.height = `${teams.length * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING}px`;
   const laneHeight = LANE_HEIGHT;
 
+  const topLine = document.createElement("div");
+  topLine.className = "track-top-line";
+  topLine.style.top = `${TRACK_TOP_PADDING - 20}px`;
+  track.appendChild(topLine);
+
   teams.forEach((team, i) => {
     const lane = document.createElement("div");
     lane.className = "lane";
