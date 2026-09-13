@@ -104,27 +104,55 @@ button:hover { background: #a8551f; }
 /* --- Race title (mirrors the mini-join widget on the opposite corner) --- */
 
 #race-title {
-  position: fixed;
-  top: 14px;
-  left: 14px;
+  position: absolute;
+  top: 0;
+  left: 24px;
   font-size: 1.6rem;
   font-weight: 800;
   color: #c96a2b;
   z-index: 20;
 }
 
+/* --- Race layout: track on the left, sidebar (join widget + active panel) on the right --- */
+
+#race-layout {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 0;
+}
+
+#track-wrapper {
+  flex: 1 1 68%;
+  min-width: 0;
+}
+
+#race-sidebar {
+  flex: 1 1 30%;
+  min-width: 260px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 /* --- Mini join widget (visible during the race, for latecomers/reconnects) --- */
 
 #mini-join {
-  position: fixed;
-  top: 14px;
-  right: 14px;
-  background: rgba(255,255,255,0.92);
+  background: white;
   border-radius: 10px;
-  padding: 8px 10px;
-  text-align: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  z-index: 20;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 10px rgba(58,43,26,0.12);
+}
+
+#mini-join-text {
+  text-align: left;
 }
 
 #mini-qr {
@@ -132,15 +160,15 @@ button:hover { background: #a8551f; }
 }
 
 #mini-qr img, #mini-qr canvas {
-  width: 84px;
-  height: 84px;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
 }
 
 #mini-join-code {
   font-weight: 700;
   letter-spacing: 3px;
-  font-size: 0.95rem;
-  margin-top: 4px;
+  font-size: 1.15rem;
   color: #c96a2b;
 }
 
@@ -153,8 +181,7 @@ button:hover { background: #a8551f; }
 
 #track {
   position: relative;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  width: 100%;
   border-bottom: 4px dashed #a8814a;
   margin-bottom: 20px;
   overflow: hidden;
@@ -262,19 +289,17 @@ button:hover { background: #a8551f; }
 /* --- Question panel --- */
 
 #question-panel {
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 8px 28px rgba(58,43,26,0.28);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 #options-list {
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 10px;
 }
 
@@ -303,61 +328,32 @@ button:hover { background: #a8551f; }
   position: relative;
 }
 
-#panels-row {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(94%, 780px);
-  z-index: 15;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 #reveal-panel {
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: white;
   border-radius: 12px;
-  padding: 28px;
-  box-shadow: 0 8px 28px rgba(58,43,26,0.28);
-}
-
-/* Wide/landscape digiboard: question and reveal side by side instead of stacked,
-   so there's less vertical scrolling on a screen that's wide but not tall. */
-@media (min-width: 900px) and (orientation: landscape) {
-  #panels-row {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  #panels-row > #question-panel,
-  #panels-row > #reveal-panel {
-    flex: 1;
-    min-width: 0;
-  }
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .reveal-answer {
-  font-size: 1.2rem;
-  margin: 0 0 20px;
+  font-size: 1.1rem;
+  margin: 0 0 16px;
 }
 
 .reveal-team-list {
   list-style: none;
-  margin: 0 0 24px;
+  margin: 0 0 20px;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .reveal-team-row {
   display: flex;
   align-items: center;
-  gap: 6px 8px;
-  padding: 6px 10px;
+  gap: 8px;
+  padding: 8px 12px;
   border-radius: 8px;
   background: var(--sand);
   font-size: 0.85rem;

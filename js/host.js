@@ -36,6 +36,7 @@ const lobbyTeamsEl = document.getElementById("lobby-teams");
 const startQuizBtn = document.getElementById("start-quiz-btn");
 
 const track = document.getElementById("track");
+const questionPanel = document.getElementById("question-panel");
 const questionText = document.getElementById("question-text");
 const optionsList = document.getElementById("options-list");
 const timerBar = document.getElementById("timer-bar");
@@ -258,7 +259,7 @@ function showLobbyScreen() {
 function renderMiniJoin() {
   const miniQrEl = document.getElementById("mini-qr");
   miniQrEl.innerHTML = "";
-  new QRCode(miniQrEl, { text: getJoinUrl(), width: 84, height: 84 });
+  new QRCode(miniQrEl, { text: getJoinUrl(), width: 72, height: 72 });
   document.getElementById("mini-join-code").textContent = gameCode;
 }
 
@@ -296,7 +297,7 @@ startQuizBtn.addEventListener("click", async () => {
 });
 
 const LANE_HEIGHT = 50;
-const TRACK_TOP_PADDING = 160; // reserves space so the top line clears below the mini-join widget, not under it
+const TRACK_TOP_PADDING = 80; // the title now lives above the track entirely, this only needs room for the spectators strip
 const TRACK_BOTTOM_PADDING = 20;
 
 function renderTrack() {
@@ -376,6 +377,7 @@ function renderQuestionPanel(index) {
 function showQuestion(index) {
   renderQuestionPanel(index);
 
+  questionPanel.classList.remove("hidden");
   revealPanel.classList.add("hidden");
   timerBar.style.width = "100%";
   answersProgress.textContent = "";
@@ -439,6 +441,7 @@ function renderRevealPanel(q, tally) {
     `;
   });
 
+  questionPanel.classList.add("hidden");
   revealPanel.classList.remove("hidden");
   revealSummary.innerHTML = `
     <p class="reveal-answer">Juist antwoord: <strong>${q.options[q.correctIndex]}</strong></p>

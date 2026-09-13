@@ -53,18 +53,22 @@
 </div>
 
 <div id="race-screen" class="screen hidden">
-  <div id="race-title">🐫 De grote kamelenrace</div>
+  <div id="race-layout">
+    <div id="race-title">🐫 De grote kamelenrace</div>
 
-  <div id="mini-join">
-    <div id="mini-qr"></div>
-    <div id="mini-join-code"></div>
-    <div id="mini-join-label">meedoen/aanhaken</div>
-  </div>
+    <div id="track-wrapper">
+      <div id="track"></div>
+    </div>
 
-  <div id="track-wrapper">
-    <div id="track"></div>
+    <aside id="race-sidebar">
+      <div id="mini-join">
+        <div id="mini-qr"></div>
+        <div id="mini-join-text">
+          <div id="mini-join-code"></div>
+          <div id="mini-join-label">meedoen/aanhaken</div>
+        </div>
+      </div>
 
-    <div id="panels-row">
       <div id="question-panel">
         <h2 id="question-text"></h2>
         <ul id="options-list"></ul>
@@ -76,7 +80,7 @@
         <div id="reveal-summary"></div>
         <button id="next-btn">Volgende vraag →</button>
       </div>
-    </div>
+    </aside>
   </div>
 
   <audio id="race-audio" src="assets/kamelenrace.mp3" preload="auto"></audio>
