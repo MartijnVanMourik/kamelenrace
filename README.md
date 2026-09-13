@@ -4,7 +4,9 @@ Een Kahoot-stijl quiz waarbij de voortgang van elk team wordt weergegeven als ee
 
 ## Status
 
-Fase 2: deelnemers joinen via hun eigen telefoon (URL of QR-code) met een spelcode, kiezen een team en beantwoorden vragen live mee. Firebase Realtime Database synchroniseert host en spelers.
+Fase 2, getest en werkend: deelnemers joinen via hun eigen telefoon (URL of QR-code) met een spelcode, kiezen zelf een team (2 t/m 10, geen voorinvulling — een team moet expliciet gekozen worden) en beantwoorden vragen live mee. Firebase Realtime Database synchroniseert host en spelers. Getest met 10 gelijktijdige spelers (gesimuleerd via de Firebase REST API) inclusief live join-updates, realtime antwoord-telling en automatische scoretelling per team.
+
+Nog open voor een volgende stap: teamnamen worden nu per keer handmatig ingetypt op het setup-scherm (geen vaste lijst/JSON), en de eindslide met winnende kameel is een tekstscherm — een apart gegenereerd winnaarsplaatje volgt later.
 
 ## Structuur
 
@@ -32,7 +34,7 @@ Open `http://localhost:8765` voor het host-scherm. Open `http://localhost:8765/p
 
 ## Spelflow
 
-1. Host opent het host-scherm, stelt het aantal teams + teamnamen in, klikt "Spel aanmaken".
+1. Host opent het host-scherm, stelt het aantal teams (2-10) + teamnamen in, klikt "Spel aanmaken".
 2. Er verschijnt een 4-letter spelcode + QR-code. Spelers scannen/typen deze in op `player.html`, vullen hun naam in en kiezen hun team.
 3. Host klikt "Start quiz". Bij elke vraag speelt de kermismuziek als timer; spelers beantwoorden op hun eigen scherm.
 4. Zodra de muziek stopt, telt de host automatisch per team of de meerderheid het goed had — zo ja, loopt de kameel van dat team een stap vooruit.
