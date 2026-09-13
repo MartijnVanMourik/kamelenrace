@@ -153,9 +153,15 @@ button:hover { background: #a8551f; }
 
 #track {
   position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   border-bottom: 4px dashed #a8814a;
   margin-bottom: 20px;
   overflow: hidden;
+  background-image: url("../assets/spectators.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100% auto;
 }
 
 #track-ground {
