@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kamelenrace</title>
+<title>Kamelenrace — Host</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div id="setup-screen" class="screen">
   <h1>🐫 Kamelenrace</h1>
-  <p>Stap 1 demo — lokaal getest, nog zonder online spelers.</p>
+  <p>Host-scherm — voor op het digiboard.</p>
   <label>
     Aantal teams
     <select id="team-count">
@@ -22,7 +22,16 @@
     </select>
   </label>
   <div id="team-name-inputs"></div>
-  <button id="start-btn">Start race</button>
+  <button id="create-game-btn">Spel aanmaken</button>
+</div>
+
+<div id="lobby-screen" class="screen hidden">
+  <h1>Spelcode: <span id="game-code-display"></span></h1>
+  <p>Ga naar <strong id="join-url-display"></strong> of scan de QR-code om mee te doen.</p>
+  <div id="qr-code"></div>
+  <h2>Deelnemers</h2>
+  <div id="lobby-teams"></div>
+  <button id="start-quiz-btn">Start quiz →</button>
 </div>
 
 <div id="race-screen" class="screen hidden">
@@ -32,24 +41,30 @@
     <h2 id="question-text"></h2>
     <ul id="options-list"></ul>
     <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
+    <p id="answers-progress"></p>
   </div>
 
   <div id="reveal-panel" class="hidden">
-    <h3>Welke teams hadden het goed dit keer?</h3>
-    <div id="reveal-buttons"></div>
+    <h3 id="reveal-summary"></h3>
     <button id="next-btn">Volgende vraag →</button>
   </div>
 
   <audio id="race-audio" src="assets/kamelenrace.mp3" preload="auto"></audio>
 </div>
 
+<footer class="credit">Geluidseffect: <a href="https://quicksounds.com" target="_blank" rel="noopener">quicksounds.com</a></footer>
+
 <div id="winner-screen" class="screen hidden">
   <h1>🏆 Winnaar!</h1>
   <div id="winner-camel"></div>
   <h2 id="winner-name"></h2>
-  <button id="restart-btn">Opnieuw spelen</button>
+  <button id="restart-btn">Nieuw spel</button>
 </div>
 
-<script src="js/app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/host.js"></script>
 </body>
 </html>

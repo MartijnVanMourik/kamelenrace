@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kamelenrace — Meedoen</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/player.css">
+</head>
+<body>
+
+<div id="join-screen" class="screen">
+  <h1>🐫 Kamelenrace</h1>
+  <label>
+    Spelcode
+    <input id="game-code-input" type="text" maxlength="4" autocapitalize="characters" placeholder="ABCD">
+  </label>
+  <label>
+    Jouw naam
+    <input id="player-name-input" type="text" maxlength="20" placeholder="Naam">
+  </label>
+  <label>
+    Team
+    <select id="team-select"></select>
+  </label>
+  <p id="join-error" class="error hidden"></p>
+  <button id="join-btn">Meedoen</button>
+</div>
+
+<div id="waiting-screen" class="screen hidden">
+  <h1>🐫 Je doet mee!</h1>
+  <p>Naam: <strong id="waiting-name"></strong></p>
+  <p>Team: <strong id="waiting-team"></strong></p>
+  <p>Wachten tot de host de quiz start...</p>
+</div>
+
+<div id="question-screen" class="screen hidden">
+  <h2 id="player-question-text"></h2>
+  <div id="player-options"></div>
+  <p id="answered-msg" class="hidden">Antwoord verzonden! Wacht op de rest...</p>
+</div>
+
+<div id="reveal-screen" class="screen hidden">
+  <h1 id="reveal-result"></h1>
+  <p id="reveal-correct-answer"></p>
+</div>
+
+<div id="finished-screen" class="screen hidden">
+  <h1>🏁 Race afgelopen!</h1>
+  <div id="finished-camel"></div>
+  <h2 id="finished-winner"></h2>
+</div>
+
+<footer class="credit">Geluidseffect: <a href="https://quicksounds.com" target="_blank" rel="noopener">quicksounds.com</a></footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/player.js"></script>
+</body>
+</html>

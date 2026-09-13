@@ -218,6 +218,42 @@ button:hover { background: #a8551f; }
 
 /* --- Winner screen --- */
 
+#lobby-screen {
+  text-align: center;
+}
+
+#game-code-display {
+  letter-spacing: 6px;
+  color: #c96a2b;
+}
+
+#qr-code {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+#lobby-teams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.lobby-team-box {
+  background: white;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+#answers-progress {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #6b5a3f;
+}
+
 #winner-screen {
   text-align: center;
   padding-top: 60px;
@@ -227,4 +263,15 @@ button:hover { background: #a8551f; }
   font-size: 6rem;
   margin: 20px 0;
   animation: bob 0.9s ease-in-out infinite;
+}
+
+.credit {
+  text-align: center;
+  padding: 16px;
+  font-size: 0.8rem;
+  color: #6b5a3f;
+}
+
+.credit a {
+  color: inherit;
 }

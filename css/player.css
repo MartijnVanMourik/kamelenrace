@@ -1,0 +1,73 @@
+#join-screen, #waiting-screen, #question-screen, #reveal-screen, #finished-screen {
+  max-width: 480px;
+  text-align: center;
+}
+
+#join-screen label {
+  display: block;
+  margin: 14px 0 4px;
+  text-align: left;
+}
+
+#join-screen input, #join-screen select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#game-code-input {
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.error {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+#join-btn {
+  margin-top: 20px;
+  width: 100%;
+}
+
+#question-screen h2 {
+  text-align: left;
+}
+
+#player-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-option-btn {
+  background: white;
+  color: #3a2b1a;
+  border: 2px solid var(--sand-dark);
+  padding: 16px;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+.player-option-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+#answered-msg {
+  margin-top: 16px;
+  font-weight: 600;
+}
+
+#reveal-result {
+  font-size: 2.2rem;
+}
+
+#finished-camel {
+  font-size: 5rem;
+  margin: 20px 0;
+}
