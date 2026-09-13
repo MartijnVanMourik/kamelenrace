@@ -296,7 +296,7 @@ startQuizBtn.addEventListener("click", async () => {
 });
 
 const LANE_HEIGHT = 50;
-const TRACK_TOP_PADDING = 140; // reserves space so no lane ever passes under the mini-join widget
+const TRACK_TOP_PADDING = 160; // reserves space so the top line clears below the mini-join widget, not under it
 const TRACK_BOTTOM_PADDING = 20;
 
 function renderTrack() {
