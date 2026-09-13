@@ -36,6 +36,7 @@ const lobbyTeamsEl = document.getElementById("lobby-teams");
 const startQuizBtn = document.getElementById("start-quiz-btn");
 
 const track = document.getElementById("track");
+const raceBackdrop = document.getElementById("race-backdrop");
 const questionPanel = document.getElementById("question-panel");
 const questionText = document.getElementById("question-text");
 const optionsList = document.getElementById("options-list");
@@ -302,23 +303,26 @@ const TRACK_BOTTOM_PADDING = 20;
 
 function renderTrack() {
   track.innerHTML = "";
-  track.style.height = `${teams.length * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING}px`;
+  raceBackdrop.innerHTML = "";
+  const trackHeight = teams.length * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING;
+  track.style.height = `${trackHeight}px`;
+  raceBackdrop.style.height = `${trackHeight}px`;
   const laneHeight = LANE_HEIGHT;
 
   const spectators = document.createElement("div");
   spectators.id = "track-spectators";
   spectators.style.height = `${TRACK_TOP_PADDING - 20}px`;
-  track.appendChild(spectators);
+  raceBackdrop.appendChild(spectators);
 
   const ground = document.createElement("div");
   ground.id = "track-ground";
   ground.style.top = `${TRACK_TOP_PADDING - 20}px`;
-  track.appendChild(ground);
+  raceBackdrop.appendChild(ground);
 
   const topLine = document.createElement("div");
   topLine.className = "track-top-line";
   topLine.style.top = `${TRACK_TOP_PADDING - 20}px`;
-  track.appendChild(topLine);
+  raceBackdrop.appendChild(topLine);
 
   teams.forEach((team, i) => {
     const lane = document.createElement("div");
@@ -350,7 +354,7 @@ function renderTrack() {
   updateCamelPositions();
 }
 
-const TRACK_SIDE_MARGIN = 24; // mirrors the old .screen container padding, now that #track is full-bleed
+const TRACK_SIDE_MARGIN = 24; // keeps camels from starting/finishing flush against the track's own edges
 
 function updateCamelPositions() {
   const totalQuestions = questionsData.questions.length;
