@@ -158,9 +158,16 @@ button:hover { background: #a8551f; }
   border-bottom: 4px dashed #a8814a;
   margin-bottom: 20px;
   overflow: hidden;
+}
+
+#track-spectators {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
   background-image: url("../assets/spectators.png");
   background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center bottom;
   background-size: 100% auto;
 }
 
@@ -190,7 +197,7 @@ button:hover { background: #a8551f; }
 #track::after {
   content: "🏁";
   position: absolute;
-  right: 8px;
+  right: 24px;
   bottom: 8px;
   font-size: 2.5rem;
 }

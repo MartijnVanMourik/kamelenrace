@@ -304,6 +304,11 @@ function renderTrack() {
   track.style.height = `${teams.length * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING}px`;
   const laneHeight = LANE_HEIGHT;
 
+  const spectators = document.createElement("div");
+  spectators.id = "track-spectators";
+  spectators.style.height = `${TRACK_TOP_PADDING - 20}px`;
+  track.appendChild(spectators);
+
   const ground = document.createElement("div");
   ground.id = "track-ground";
   ground.style.top = `${TRACK_TOP_PADDING - 20}px`;
@@ -344,14 +349,16 @@ function renderTrack() {
   updateCamelPositions();
 }
 
+const TRACK_SIDE_MARGIN = 24; // mirrors the old .screen container padding, now that #track is full-bleed
+
 function updateCamelPositions() {
   const totalQuestions = questionsData.questions.length;
-  const trackWidth = track.clientWidth - 80;
+  const travelWidth = track.clientWidth - 80 - TRACK_SIDE_MARGIN;
 
   teams.forEach((team) => {
     const camel = document.getElementById(`camel-${team.id}`);
     const progress = team.position / totalQuestions;
-    camel.style.left = `${progress * trackWidth}px`;
+    camel.style.left = `${TRACK_SIDE_MARGIN + progress * travelWidth}px`;
   });
 }
 
