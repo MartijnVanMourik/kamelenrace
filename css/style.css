@@ -56,6 +56,12 @@ h1 { text-align: center; }
   padding: 8px 14px;
 }
 
+#questions-status {
+  font-size: 0.9rem;
+  color: #6b5a3f;
+  margin: 20px 0 8px;
+}
+
 #team-name-inputs {
   display: flex;
   flex-direction: column;

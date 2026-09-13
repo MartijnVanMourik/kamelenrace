@@ -6,7 +6,7 @@ Een Kahoot-stijl quiz waarbij de voortgang van elk team wordt weergegeven als ee
 
 Fase 2, getest en werkend: deelnemers joinen via hun eigen telefoon (URL of QR-code) met een spelcode, kiezen zelf een team (2 t/m 10, geen voorinvulling — een team moet expliciet gekozen worden) en beantwoorden vragen live mee. Firebase Realtime Database synchroniseert host en spelers. Getest met 10 gelijktijdige spelers (gesimuleerd via de Firebase REST API) inclusief live join-updates, realtime antwoord-telling en automatische scoretelling per team.
 
-Nog open voor een volgende stap: teamnamen worden nu per keer handmatig ingetypt op het setup-scherm (geen vaste lijst/JSON), en de eindslide met winnende kameel is een tekstscherm — een apart gegenereerd winnaarsplaatje volgt later.
+Teamnamen en vragen kunnen als JSON geëxporteerd/geïmporteerd worden op het setup-scherm (zie hieronder) — handig om thuis voor te bereiden en op school in te laden, ongeacht op welk apparaat. Nog open voor een volgende stap: de eindslide met winnende kameel is een tekstscherm — een apart gegenereerd winnaarsplaatje volgt later.
 
 ## Structuur
 
@@ -42,7 +42,11 @@ Open `http://localhost:8765` voor het host-scherm. Open `http://localhost:8765/p
 
 ## Eigen vragen aanleveren
 
-Vervang `data/questions.json` door je eigen vragenset in hetzelfde formaat:
+Op het setup-scherm kun je een eigen vragenset importeren via "Vragen importeren" (een `.json`-bestand in het formaat hieronder) — geen redeploy nodig, blijft bewaard in de browser tot je op "Standaardvragen" klikt. Gebruik "Vragen exporteren" om de actief geladen set (of de standaardset) als bestand te downloaden, bijvoorbeeld als startpunt om aan te passen.
+
+Los daarvan kan `data/questions.json` in de repo ook direct vervangen worden — dat wordt de nieuwe standaardset voor iedereen die geen eigen bestand importeert.
+
+Formaat:
 
 ```json
 {

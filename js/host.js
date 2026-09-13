@@ -23,6 +23,12 @@ const exportTeamsBtn = document.getElementById("export-teams-btn");
 const importTeamsBtn = document.getElementById("import-teams-btn");
 const importTeamsFile = document.getElementById("import-teams-file");
 
+const questionsStatus = document.getElementById("questions-status");
+const exportQuestionsBtn = document.getElementById("export-questions-btn");
+const importQuestionsBtn = document.getElementById("import-questions-btn");
+const importQuestionsFile = document.getElementById("import-questions-file");
+const resetQuestionsBtn = document.getElementById("reset-questions-btn");
+
 const gameCodeDisplay = document.getElementById("game-code-display");
 const joinUrlDisplay = document.getElementById("join-url-display");
 const qrCodeEl = document.getElementById("qr-code");
@@ -119,10 +125,77 @@ importTeamsFile.addEventListener("change", async () => {
   importTeamsFile.value = "";
 });
 
+function isValidQuestionsData(data) {
+  return (
+    data &&
+    Array.isArray(data.questions) &&
+    data.questions.length > 0 &&
+    data.questions.every(
+      (q) =>
+        typeof q.question === "string" &&
+        Array.isArray(q.options) &&
+        q.options.length > 0 &&
+        Number.isInteger(q.correctIndex)
+    )
+  );
+}
+
+function updateQuestionsStatus() {
+  const custom = localStorage.getItem("kamelenrace_questions");
+  if (custom) {
+    const data = JSON.parse(custom);
+    questionsStatus.textContent = `Vragenset: ${data.title || "eigen vragenset"} (${data.questions.length} vragen)`;
+  } else {
+    questionsStatus.textContent = "Vragenset: standaard (AI-thema)";
+  }
+}
+
 async function loadQuestions() {
+  const custom = localStorage.getItem("kamelenrace_questions");
+  if (custom) {
+    questionsData = JSON.parse(custom);
+    return;
+  }
   const res = await fetch("data/questions.json");
   questionsData = await res.json();
 }
+
+updateQuestionsStatus();
+
+exportQuestionsBtn.addEventListener("click", async () => {
+  if (!questionsData) await loadQuestions();
+  const blob = new Blob([JSON.stringify(questionsData, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "kamelenrace-vragen.json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+importQuestionsBtn.addEventListener("click", () => importQuestionsFile.click());
+
+importQuestionsFile.addEventListener("change", async () => {
+  const file = importQuestionsFile.files[0];
+  if (!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    if (!isValidQuestionsData(data)) throw new Error("invalid");
+    localStorage.setItem("kamelenrace_questions", JSON.stringify(data));
+    questionsData = data;
+    updateQuestionsStatus();
+  } catch {
+    alert("Kon dit bestand niet lezen als geldige vragenset (verwacht: title + questions[] met question/options/correctIndex).");
+  }
+  importQuestionsFile.value = "";
+});
+
+resetQuestionsBtn.addEventListener("click", async () => {
+  localStorage.removeItem("kamelenrace_questions");
+  questionsData = null;
+  await loadQuestions();
+  updateQuestionsStatus();
+});
 
 function makeGameCode() {
   let code = "";
