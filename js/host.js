@@ -19,6 +19,9 @@ const winnerScreen = document.getElementById("winner-screen");
 const teamCountSelect = document.getElementById("team-count");
 const teamNameInputs = document.getElementById("team-name-inputs");
 const createGameBtn = document.getElementById("create-game-btn");
+const exportTeamsBtn = document.getElementById("export-teams-btn");
+const importTeamsBtn = document.getElementById("import-teams-btn");
+const importTeamsFile = document.getElementById("import-teams-file");
 
 const gameCodeDisplay = document.getElementById("game-code-display");
 const joinUrlDisplay = document.getElementById("join-url-display");
@@ -40,8 +43,26 @@ const winnerCamel = document.getElementById("winner-camel");
 const winnerName = document.getElementById("winner-name");
 const restartBtn = document.getElementById("restart-btn");
 
+function loadSavedTeamSetup() {
+  try {
+    return JSON.parse(localStorage.getItem("kamelenrace_team_setup"));
+  } catch {
+    return null;
+  }
+}
+
+function saveTeamSetup(count, names) {
+  localStorage.setItem("kamelenrace_team_setup", JSON.stringify({ count, names }));
+}
+
+const savedTeamSetup = loadSavedTeamSetup();
+if (savedTeamSetup && savedTeamSetup.count) {
+  teamCountSelect.value = savedTeamSetup.count;
+}
+
 function renderTeamNameInputs() {
   const count = parseInt(teamCountSelect.value, 10);
+  const saved = loadSavedTeamSetup();
   teamNameInputs.innerHTML = "";
   for (let i = 0; i < count; i++) {
     const row = document.createElement("div");
@@ -55,6 +76,7 @@ function renderTeamNameInputs() {
     input.type = "text";
     input.placeholder = `Team ${i + 1}`;
     input.dataset.teamIndex = i;
+    if (saved && saved.names && saved.names[i]) input.value = saved.names[i];
 
     row.appendChild(dot);
     row.appendChild(input);
@@ -64,6 +86,38 @@ function renderTeamNameInputs() {
 
 teamCountSelect.addEventListener("change", renderTeamNameInputs);
 renderTeamNameInputs();
+
+exportTeamsBtn.addEventListener("click", () => {
+  const names = Array.from(teamNameInputs.querySelectorAll("input")).map(
+    (input, i) => input.value.trim() || `Team ${i + 1}`
+  );
+  const blob = new Blob([JSON.stringify({ count: names.length, names }, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "kamelenrace-teams.json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+importTeamsBtn.addEventListener("click", () => importTeamsFile.click());
+
+importTeamsFile.addEventListener("change", async () => {
+  const file = importTeamsFile.files[0];
+  if (!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    if (!data.names || !Array.isArray(data.names)) throw new Error("invalid");
+    teamCountSelect.value = Math.min(Math.max(data.names.length, 2), 10);
+    saveTeamSetup(data.names.length, data.names);
+    renderTeamNameInputs();
+  } catch {
+    alert("Kon dit bestand niet lezen als teamnamen-export.");
+  }
+  importTeamsFile.value = "";
+});
 
 async function loadQuestions() {
   const res = await fetch("data/questions.json");
@@ -91,6 +145,7 @@ function buildTeamsFromInputs() {
 createGameBtn.addEventListener("click", async () => {
   if (!questionsData) await loadQuestions();
   teams = buildTeamsFromInputs();
+  saveTeamSetup(teams.length, teams.map((t) => t.name));
   gameCode = makeGameCode();
   gameRef = db.ref(`games/${gameCode}`);
 
