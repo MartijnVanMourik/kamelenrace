@@ -37,7 +37,6 @@ const startQuizBtn = document.getElementById("start-quiz-btn");
 
 const track = document.getElementById("track");
 const raceBackdrop = document.getElementById("race-backdrop");
-const raceSidebar = document.getElementById("race-sidebar");
 const trackWrapper = document.getElementById("track-wrapper");
 const questionPanel = document.getElementById("question-panel");
 const questionText = document.getElementById("question-text");
@@ -315,7 +314,7 @@ function renderTrack() {
   raceBackdrop.innerHTML = "";
   const laneHeight = LANE_HEIGHT;
   syncBackdropWidth();
-  syncTrackHeightToSidebar();
+  syncTrackHeight();
 
   const spectators = document.createElement("div");
   spectators.id = "track-spectators";
@@ -431,7 +430,6 @@ function showQuestion(index) {
   revealPanel.classList.add("hidden");
   timerBar.style.width = "100%";
   answersProgress.textContent = "";
-  syncTrackHeightToSidebar();
 
   gameRef.child(`answers/${index}`).on("value", (snap) => {
     const count = snap.val() ? Object.keys(snap.val()).length : 0;
@@ -498,15 +496,16 @@ function renderRevealPanel(q, tally) {
     <p class="reveal-answer">Juist antwoord: <strong>${q.options[q.correctIndex]}</strong></p>
     <ul class="reveal-team-list">${rows.join("")}</ul>
   `;
-  syncTrackHeightToSidebar();
 }
 
-function syncTrackHeightToSidebar() {
-  const baseHeight = MAX_TEAMS * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING;
-  const sidebarHeight = raceSidebar.getBoundingClientRect().height;
-  const finalHeight = Math.max(baseHeight, sidebarHeight);
-  track.style.height = `${finalHeight}px`;
-  raceBackdrop.style.height = `${finalHeight}px`;
+// Fixed height for exactly MAX_TEAMS lanes -- deliberately NOT based on the
+// sidebar's own height, so the track never resizes between the question and
+// reveal panels. If the reveal panel ends up taller than the track, it's
+// allowed to visually extend past the bottom of the track/backdrop.
+function syncTrackHeight() {
+  const height = MAX_TEAMS * LANE_HEIGHT + TRACK_TOP_PADDING + TRACK_BOTTOM_PADDING;
+  track.style.height = `${height}px`;
+  raceBackdrop.style.height = `${height}px`;
 }
 
 async function tallyAndReveal(index) {
@@ -566,7 +565,6 @@ restartBtn.addEventListener("click", () => {
 window.addEventListener("resize", () => {
   if (!raceScreen.classList.contains("hidden") && questionsData) {
     syncBackdropWidth();
-    syncTrackHeightToSidebar();
     updateCamelPositions();
   }
 });
