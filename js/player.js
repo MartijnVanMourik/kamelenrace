@@ -87,10 +87,10 @@ async function tryLoadTeams() {
     joinError.classList.remove("hidden");
     return;
   }
-  if (statusSnap.val() !== "lobby") {
+  if (statusSnap.val() === "finished") {
     teamSelect.innerHTML = "";
     teamsLoadedForCode = null;
-    joinError.textContent = "Deze quiz is al gestart.";
+    joinError.textContent = "Deze quiz is afgelopen.";
     joinError.classList.remove("hidden");
     return;
   }
@@ -171,8 +171,8 @@ joinBtn.addEventListener("click", async () => {
     joinError.classList.remove("hidden");
     return;
   }
-  if (statusSnap.val() !== "lobby") {
-    joinError.textContent = "Deze quiz is al gestart.";
+  if (statusSnap.val() === "finished") {
+    joinError.textContent = "Deze quiz is afgelopen.";
     joinError.classList.remove("hidden");
     return;
   }

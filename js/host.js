@@ -239,16 +239,27 @@ createGameBtn.addEventListener("click", async () => {
   showLobbyScreen();
 });
 
+function getJoinUrl() {
+  return `${location.origin}${location.pathname.replace(/index\.html$/, "")}player.html?game=${gameCode}`;
+}
+
 function showLobbyScreen() {
   lobbyScreen.classList.remove("hidden");
 
   gameCodeDisplay.textContent = gameCode;
-  const joinUrl = `${location.origin}${location.pathname.replace(/index\.html$/, "")}player.html?game=${gameCode}`;
+  const joinUrl = getJoinUrl();
   joinUrlDisplay.textContent = joinUrl;
   qrCodeEl.innerHTML = "";
   new QRCode(qrCodeEl, { text: joinUrl, width: 220, height: 220 });
 
   listenForPlayers();
+}
+
+function renderMiniJoin() {
+  const miniQrEl = document.getElementById("mini-qr");
+  miniQrEl.innerHTML = "";
+  new QRCode(miniQrEl, { text: getJoinUrl(), width: 84, height: 84 });
+  document.getElementById("mini-join-code").textContent = gameCode;
 }
 
 function listenForPlayers() {
@@ -278,6 +289,7 @@ startQuizBtn.addEventListener("click", async () => {
   raceScreen.classList.remove("hidden");
 
   renderTrack();
+  renderMiniJoin();
   currentQuestionIndex = 0;
   await gameRef.update({ status: "question", currentQuestionIndex: 0 });
   showQuestion(currentQuestionIndex);
@@ -497,10 +509,12 @@ async function resumeGame(code) {
   } else if (data.status === "question") {
     raceScreen.classList.remove("hidden");
     renderTrack();
+    renderMiniJoin();
     showQuestion(currentQuestionIndex);
   } else if (data.status === "reveal") {
     raceScreen.classList.remove("hidden");
     renderTrack();
+    renderMiniJoin();
     const { q, tally } = await computeQuestionTally(currentQuestionIndex);
     renderRevealPanel(q, tally);
   } else if (data.status === "finished") {
