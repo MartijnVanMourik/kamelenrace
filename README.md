@@ -8,6 +8,8 @@ Fase 2, getest en werkend: deelnemers joinen via hun eigen telefoon (URL of QR-c
 
 Teamnamen en vragen kunnen als JSON geëxporteerd/geïmporteerd worden op het setup-scherm (zie hieronder) — handig om thuis voor te bereiden en op school in te laden, ongeacht op welk apparaat.
 
+**Later aanhaken:** joinen kan niet alleen tijdens de lobby, maar de hele quiz door — een klein QR-code/spelcode-blokje blijft rechtsboven op het host-scherm zichtbaar zolang de race loopt, zodat weggevallen of nog niet aangesloten deelnemers alsnog kunnen meedoen. Wie mid-quiz binnenkomt, doet gewoon mee vanaf de eerstvolgende vraag.
+
 **Herstel na verversen/crashen:** zowel het host- als het spelerscherm herstellen automatisch de actuele stand (huidige vraag, teamposities, wie al meedoet) als de pagina per ongeluk ververst wordt of de browser crasht — geen data-verlies, geen opnieuw hoeven joinen. Enige kanttekening: bij herstel start de muziek/timer van de actieve vraag opnieuw vanaf het begin, niet vanaf het punt waar hij gebleven was.
 
 ## Structuur
