@@ -28,7 +28,6 @@ const answeredMsg = document.getElementById("answered-msg");
 const revealResult = document.getElementById("reveal-result");
 const revealCorrectAnswer = document.getElementById("reveal-correct-answer");
 
-const finishedCamel = document.getElementById("finished-camel");
 const finishedWinner = document.getElementById("finished-winner");
 
 function showScreen(el) {
@@ -237,9 +236,6 @@ function showFinished(teams) {
   const maxPosition = Math.max(...teamList.map((t) => t.position));
   const winners = teamList.filter((t) => t.position === maxPosition);
 
-  finishedCamel.innerHTML = winners
-    .map((w) => `<span style="color:${w.color || "#333"}">🐫</span>`)
-    .join(" ");
   finishedWinner.textContent =
     winners.length > 1
       ? `${winners.map((w) => w.name).join(" & ")} winnen samen de kamelenrace!`

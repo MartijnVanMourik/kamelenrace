@@ -314,10 +314,12 @@ button:hover { background: #a8551f; }
   padding-top: 60px;
 }
 
-#winner-camel {
-  font-size: 6rem;
+#winner-image {
+  max-width: 500px;
+  width: 90%;
+  border-radius: 12px;
   margin: 20px 0;
-  animation: bob 0.9s ease-in-out infinite;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
 .credit {
