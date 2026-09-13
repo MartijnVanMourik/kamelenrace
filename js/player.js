@@ -50,6 +50,14 @@ async function loadTeamsForCode(code) {
 
 function populateTeamSelect(teams) {
   teamSelect.innerHTML = "";
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Kies een team";
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  teamSelect.appendChild(placeholder);
+
   Object.entries(teams).forEach(([id, t]) => {
     const opt = document.createElement("option");
     opt.value = id;
@@ -93,6 +101,11 @@ joinBtn.addEventListener("click", async () => {
   }
   if (!name) {
     joinError.textContent = "Vul je naam in.";
+    joinError.classList.remove("hidden");
+    return;
+  }
+  if (!teamSelect.value) {
+    joinError.textContent = "Kies eerst een team.";
     joinError.classList.remove("hidden");
     return;
   }

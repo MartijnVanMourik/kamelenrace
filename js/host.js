@@ -1,4 +1,7 @@
-const TEAM_COLORS = ["#e74c3c", "#3498db", "#2ecc71", "#f39c12", "#9b59b6", "#1abc9c"];
+const TEAM_COLORS = [
+  "#e74c3c", "#3498db", "#2ecc71", "#f39c12", "#9b59b6",
+  "#1abc9c", "#e91e8c", "#795548", "#607d8b", "#8bc34a",
+];
 const GAME_CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I to avoid confusion
 
 let questionsData = null;
@@ -148,9 +151,12 @@ startQuizBtn.addEventListener("click", async () => {
   showQuestion(currentQuestionIndex);
 });
 
+const LANE_HEIGHT = 50;
+
 function renderTrack() {
   track.innerHTML = "";
-  const laneHeight = 260 / teams.length;
+  track.style.height = `${teams.length * LANE_HEIGHT}px`;
+  const laneHeight = LANE_HEIGHT;
 
   teams.forEach((team, i) => {
     const lane = document.createElement("div");

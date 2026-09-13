@@ -77,7 +77,6 @@ button:hover { background: #a8551f; }
 
 #track {
   position: relative;
-  height: 260px;
   background: linear-gradient(to bottom, transparent 0%, transparent 60%, rgba(0,0,0,0.06) 60%);
   border-bottom: 4px dashed #a8814a;
   margin-bottom: 20px;
