@@ -71,9 +71,31 @@ const prefillCode = params.get("game");
 if (prefillCode) gameCodeInput.value = prefillCode.toUpperCase();
 
 let teamsLoadedForCode = null;
+let lastCheckedCode = null;
+
 async function tryLoadTeams() {
   const code = gameCodeInput.value.trim().toUpperCase();
-  if (code.length !== 4 || code === teamsLoadedForCode) return;
+  if (code.length !== 4 || code === lastCheckedCode) return;
+  lastCheckedCode = code;
+
+  const statusSnap = await db.ref(`games/${code}/status`).once("value");
+  if (gameCodeInput.value.trim().toUpperCase() !== code) return; // code changed while awaiting
+
+  if (statusSnap.val() === null) {
+    teamSelect.innerHTML = "";
+    teamsLoadedForCode = null;
+    joinError.textContent = "Deze spelcode bestaat niet.";
+    joinError.classList.remove("hidden");
+    return;
+  }
+  if (statusSnap.val() !== "lobby") {
+    teamSelect.innerHTML = "";
+    teamsLoadedForCode = null;
+    joinError.textContent = "Deze quiz is al gestart.";
+    joinError.classList.remove("hidden");
+    return;
+  }
+
   const teams = await loadTeamsForCode(code);
   if (teams) {
     currentTeams = teams;
