@@ -242,3 +242,16 @@ function showFinished(teams) {
       : `${winners[0].name} wint de kamelenrace!`;
   showScreen(finishedScreen);
 }
+
+// Tijdelijk: ?previewWinner=1 (of =tie) toont het eindscherm direct, zonder een heel spel te spelen.
+const previewWinner = new URLSearchParams(location.search).get("previewWinner");
+if (previewWinner) {
+  showFinished(
+    previewWinner === "tie"
+      ? {
+          t0: { name: "Team Rood", color: "#e74c3c", position: 8 },
+          t1: { name: "Team Blauw", color: "#3498db", position: 8 },
+        }
+      : { t0: { name: "Team Rood", color: "#e74c3c", position: 8 } }
+  );
+}
