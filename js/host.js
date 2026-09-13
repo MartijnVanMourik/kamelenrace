@@ -451,17 +451,3 @@ restartBtn.addEventListener("click", () => {
 window.addEventListener("resize", () => {
   if (!raceScreen.classList.contains("hidden") && questionsData) updateCamelPositions();
 });
-
-// Tijdelijk: ?previewWinner=1 (of =tie) toont het winnaarsscherm direct, zonder een heel spel te spelen.
-const previewWinner = new URLSearchParams(location.search).get("previewWinner");
-if (previewWinner) {
-  setupScreen.classList.add("hidden");
-  teams =
-    previewWinner === "tie"
-      ? [
-          { id: "t0", name: "Team Rood", color: "#e74c3c", position: 8 },
-          { id: "t1", name: "Team Blauw", color: "#3498db", position: 8 },
-        ]
-      : [{ id: "t0", name: "Team Rood", color: "#e74c3c", position: 8 }];
-  showWinnerScreen();
-}
