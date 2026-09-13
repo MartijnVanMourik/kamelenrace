@@ -61,7 +61,22 @@ Vervang `data/questions.json` door je eigen vragenset in hetzelfde formaat:
 
 Gebruikt Firebase Realtime Database (gratis Spark-tier) als gedeelde state tussen host en spelers. De configuratie in `js/firebase-config.js` bevat geen geheime sleutels — dat is normaal voor client-side Firebase-apps; de beveiliging zit in de database-rules, niet in het geheimhouden van deze config.
 
-**Let op — huidige rules zijn volledig open** (`.read`/`.write`: `true`), praktisch voor testen maar niet geschikt om lang open te laten staan. Overweeg de rules aan te scherpen voordat je dit breed inzet, bijvoorbeeld door schrijven te beperken tot het toevoegen van nieuwe data (niet het overschrijven van bestaande games).
+**Rules:** scoped onder `/games/$gameCode` in plaats van open op de root, zodat niemand in één verzoek de hele database kan wissen:
+
+```json
+{
+  "rules": {
+    "games": {
+      "$gameCode": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}
+```
+
+Binnen een spelcode is alles nog open (spelers kunnen elkaars antwoorden theoretisch overschrijven) — verdere verfijning (bijv. spelers mogen alleen hun eigen antwoord schrijven) vereist Firebase Auth, wat voor een kortlopende klasactiviteit vooralsnog bewust achterwege is gelaten.
 
 **Bekende beperking:** de juiste antwoorden staan in `data/questions.json`, dat door elke speler wordt opgehaald. Een speler die de netwerkverzoeken inspecteert kan dus in theorie vooraf de antwoorden zien. Voor een klassikale quiz is dit een acceptabele afweging; voor een setting waar dat een probleem is, is server-side validatie (bijv. via een Cloud Function) nodig.
 
