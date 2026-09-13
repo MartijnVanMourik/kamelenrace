@@ -210,9 +210,17 @@ async function showReveal(questionIndex) {
 
 function showFinished(teams) {
   const teamList = Object.values(teams || {});
-  const winner = teamList.reduce((best, t) => (t.position > best.position ? t : best), teamList[0] || { position: 0, name: "?" });
-  finishedCamel.textContent = "🐫";
-  finishedCamel.style.color = winner.color || "#333";
-  finishedWinner.textContent = `${winner.name} wint de kamelenrace!`;
+  if (teamList.length === 0) return;
+
+  const maxPosition = Math.max(...teamList.map((t) => t.position));
+  const winners = teamList.filter((t) => t.position === maxPosition);
+
+  finishedCamel.innerHTML = winners
+    .map((w) => `<span style="color:${w.color || "#333"}">🐫</span>`)
+    .join(" ");
+  finishedWinner.textContent =
+    winners.length > 1
+      ? `${winners.map((w) => w.name).join(" & ")} winnen samen de kamelenrace!`
+      : `${winners[0].name} wint de kamelenrace!`;
   showScreen(finishedScreen);
 }

@@ -294,10 +294,16 @@ function showWinnerScreen() {
   raceScreen.classList.add("hidden");
   winnerScreen.classList.remove("hidden");
 
-  const winner = teams.reduce((best, t) => (t.position > best.position ? t : best), teams[0]);
-  winnerCamel.textContent = "🐫";
-  winnerCamel.style.color = winner.color;
-  winnerName.textContent = `${winner.name} wint de kamelenrace!`;
+  const maxPosition = Math.max(...teams.map((t) => t.position));
+  const winners = teams.filter((t) => t.position === maxPosition);
+
+  winnerCamel.innerHTML = winners
+    .map((w) => `<span style="color:${w.color}">🐫</span>`)
+    .join(" ");
+  winnerName.textContent =
+    winners.length > 1
+      ? `${winners.map((w) => w.name).join(" & ")} winnen samen de kamelenrace!`
+      : `${winners[0].name} wint de kamelenrace!`;
 }
 
 restartBtn.addEventListener("click", () => {
