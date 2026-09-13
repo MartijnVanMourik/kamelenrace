@@ -32,7 +32,7 @@ const finishedWinner = document.getElementById("finished-winner");
 
 const CONNECTION_TIMEOUT_MS = 6000;
 const CONNECTION_TIMEOUT_MSG =
-  "Kan geen verbinding maken. Mogelijk zit de klas vol of is er een netwerkprobleem — probeer het zo opnieuw.";
+  "Kan geen verbinding maken. Mogelijk zit de kamer vol of is er een netwerkprobleem — probeer het zo opnieuw.";
 
 function withTimeout(promise, ms = CONNECTION_TIMEOUT_MS) {
   return Promise.race([
