@@ -168,7 +168,7 @@ button:hover { background: #a8551f; }
   background-image: url("../assets/spectators.png");
   background-repeat: no-repeat;
   background-position: center bottom;
-  background-size: 100% auto;
+  background-size: auto 100%;
 }
 
 #track-ground {
