@@ -40,13 +40,16 @@
     <button id="reset-questions-btn" type="button">Standaardvragen</button>
   </div>
 
-  <label id="scoring-mode-row">
-    <input type="checkbox" id="proportional-mode-toggle">
-    <span>
-      Vooruitgang naar verhouding<br>
-      <small>Kameel gaat naar rato van het aantal juiste antwoorden vooruit (bijv. 6 van de 9 goed → 2/3 stap), in plaats van een hele stap bij een meerderheid</small>
-    </span>
-  </label>
+  <div id="scoring-mode-row">
+    <label id="scoring-mode-label" for="proportional-mode-toggle">
+      <input type="checkbox" id="proportional-mode-toggle">
+      <span>Vooruitgang naar verhouding</span>
+    </label>
+    <button type="button" id="scoring-mode-info-btn" aria-label="Meer uitleg over deze instelling" aria-expanded="false">i</button>
+    <div id="scoring-mode-info-popup" class="hidden" role="tooltip">
+      Kameel gaat naar rato van het aantal juiste antwoorden vooruit (bijv. 6 van de 9 goed → 2/3 stap), in plaats van een hele stap bij een meerderheid.
+    </div>
+  </div>
 
   <button id="create-game-btn">Spel aanmaken</button>
 </div>

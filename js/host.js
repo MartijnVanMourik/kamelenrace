@@ -59,6 +59,21 @@ proportionalModeToggle.addEventListener("change", () => {
   localStorage.setItem(SCORING_MODE_KEY, proportionalModeToggle.checked ? "proportional" : "majority");
 });
 
+const scoringModeInfoBtn = document.getElementById("scoring-mode-info-btn");
+const scoringModeInfoPopup = document.getElementById("scoring-mode-info-popup");
+scoringModeInfoBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const willShow = scoringModeInfoPopup.classList.contains("hidden");
+  scoringModeInfoPopup.classList.toggle("hidden", !willShow);
+  scoringModeInfoBtn.setAttribute("aria-expanded", String(willShow));
+});
+document.addEventListener("click", (e) => {
+  if (!scoringModeInfoPopup.classList.contains("hidden") && !scoringModeInfoPopup.contains(e.target)) {
+    scoringModeInfoPopup.classList.add("hidden");
+    scoringModeInfoBtn.setAttribute("aria-expanded", "false");
+  }
+});
+
 function loadSavedTeamSetup() {
   try {
     return JSON.parse(localStorage.getItem("kamelenrace_team_setup"));
