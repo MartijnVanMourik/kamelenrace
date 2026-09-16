@@ -511,21 +511,29 @@ function simplifyFraction(numerator, denominator) {
   return `${numerator / divisor}/${denominator / divisor}`;
 }
 
+// How far a team's camel advances on this tally, and the label to show for
+// it, per the active scoring mode. Shared by renderRevealPanel (display) and
+// tallyAndReveal (actually moving the camel), so the two can never disagree.
+function computeTeamStep(t) {
+  if (t.total === 0) return { step: 0, label: "" };
+  if (scoringMode === "proportional") {
+    const step = t.correct / t.total;
+    return { step, label: step > 0 ? `${simplifyFraction(t.correct, t.total)} stap vooruit!` : "" };
+  }
+  const majorityCorrect = t.correct / t.total > 0.5;
+  return { step: majorityCorrect ? 1 : 0, label: majorityCorrect ? "stap vooruit!" : "" };
+}
+
 function renderRevealPanel(q, tally) {
   const rows = teams.map((team) => {
     const t = tally[team.id];
-    const majorityCorrect = t.total > 0 && t.correct / t.total > 0.5;
-    const didAdvance = scoringMode === "proportional" ? t.correct > 0 : majorityCorrect;
-    const advanceLabel =
-      scoringMode === "proportional"
-        ? (t.correct > 0 ? `${simplifyFraction(t.correct, t.total)} stap vooruit!` : "")
-        : (majorityCorrect ? "stap vooruit!" : "");
+    const { step, label } = computeTeamStep(t);
     return `
-      <li class="reveal-team-row ${didAdvance ? "correct" : ""}">
+      <li class="reveal-team-row ${step > 0 ? "correct" : ""}">
         <span class="reveal-team-dot" style="background:${team.color}"></span>
         <span class="reveal-team-name">${team.name}</span>
         <span class="reveal-team-tally">${t.correct}/${t.total} goed</span>
-        ${advanceLabel ? `<span class="reveal-team-advance">${advanceLabel}</span>` : ""}
+        ${label ? `<span class="reveal-team-advance">${label}</span>` : ""}
       </li>
     `;
   });
@@ -554,8 +562,7 @@ async function tallyAndReveal(index) {
 
   teams.forEach((team) => {
     const t = tally[team.id];
-    const majorityCorrect = t.total > 0 && t.correct / t.total > 0.5;
-    const step = scoringMode === "proportional" ? (t.total > 0 ? t.correct / t.total : 0) : (majorityCorrect ? 1 : 0);
+    const { step } = computeTeamStep(t);
     if (step > 0) {
       const rawPosition = Math.min(team.position + step, questionsData.questions.length);
       team.position = Math.round(rawPosition * 1000) / 1000; // avoid float drift accumulating over many questions

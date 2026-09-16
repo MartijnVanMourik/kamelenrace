@@ -207,8 +207,10 @@ button:hover { background: #a8551f; }
 }
 
 #track-wrapper {
+  position: relative;
   flex: 1 1 68%;
   min-width: 0;
+  margin-bottom: 20px;
 }
 
 #race-sidebar {
@@ -262,11 +264,6 @@ button:hover { background: #a8551f; }
 }
 
 /* --- Race track --- */
-
-#track-wrapper {
-  position: relative;
-  margin-bottom: 20px;
-}
 
 #track {
   position: relative;
@@ -533,7 +530,7 @@ button:hover { background: #a8551f; }
   white-space: nowrap;
 }
 
-/* --- Winner screen --- */
+/* --- Lobby screen --- */
 
 #lobby-screen {
   text-align: center;
@@ -570,6 +567,8 @@ button:hover { background: #a8551f; }
   font-size: 0.9rem;
   color: #6b5a3f;
 }
+
+/* --- Winner screen --- */
 
 #winner-screen {
   text-align: center;
