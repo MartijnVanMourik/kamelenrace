@@ -10,6 +10,7 @@ let gameRef = null;
 let teams = [];
 let currentQuestionIndex = 0;
 let rafId = null;
+let scoringMode = "majority"; // "majority" (default) or "proportional" -- set on game creation, restored on resume
 
 const setupScreen = document.getElementById("setup-screen");
 const lobbyScreen = document.getElementById("lobby-screen");
@@ -50,6 +51,13 @@ const audio = document.getElementById("race-audio");
 
 const winnerName = document.getElementById("winner-name");
 const restartBtn = document.getElementById("restart-btn");
+
+const proportionalModeToggle = document.getElementById("proportional-mode-toggle");
+const SCORING_MODE_KEY = "kamelenrace_scoring_mode";
+proportionalModeToggle.checked = localStorage.getItem(SCORING_MODE_KEY) === "proportional";
+proportionalModeToggle.addEventListener("change", () => {
+  localStorage.setItem(SCORING_MODE_KEY, proportionalModeToggle.checked ? "proportional" : "majority");
+});
 
 function loadSavedTeamSetup() {
   try {
@@ -221,6 +229,7 @@ createGameBtn.addEventListener("click", async () => {
   if (!questionsData) await loadQuestions();
   teams = buildTeamsFromInputs();
   saveTeamSetup(teams.length, teams.map((t) => t.name));
+  scoringMode = proportionalModeToggle.checked ? "proportional" : "majority";
   gameCode = makeGameCode();
   gameRef = db.ref(`games/${gameCode}`);
 
@@ -234,6 +243,7 @@ createGameBtn.addEventListener("click", async () => {
     currentQuestionIndex: 0,
     totalQuestions: questionsData.questions.length,
     teams: teamsObj,
+    scoringMode,
     createdAt: firebase.database.ServerValue.TIMESTAMP,
   });
 
@@ -476,16 +486,31 @@ async function computeQuestionTally(index) {
   return { q, tally };
 }
 
+function gcd(a, b) {
+  return b === 0 ? a : gcd(b, a % b);
+}
+
+// Simplifies e.g. 6/9 to "2/3", for the proportional-mode advance label.
+function simplifyFraction(numerator, denominator) {
+  const divisor = gcd(numerator, denominator) || 1;
+  return `${numerator / divisor}/${denominator / divisor}`;
+}
+
 function renderRevealPanel(q, tally) {
   const rows = teams.map((team) => {
     const t = tally[team.id];
     const majorityCorrect = t.total > 0 && t.correct / t.total > 0.5;
+    const didAdvance = scoringMode === "proportional" ? t.correct > 0 : majorityCorrect;
+    const advanceLabel =
+      scoringMode === "proportional"
+        ? (t.correct > 0 ? `${simplifyFraction(t.correct, t.total)} stap vooruit!` : "")
+        : (majorityCorrect ? "stap vooruit!" : "");
     return `
-      <li class="reveal-team-row ${majorityCorrect ? "correct" : ""}">
+      <li class="reveal-team-row ${didAdvance ? "correct" : ""}">
         <span class="reveal-team-dot" style="background:${team.color}"></span>
         <span class="reveal-team-name">${team.name}</span>
         <span class="reveal-team-tally">${t.correct}/${t.total} goed</span>
-        ${majorityCorrect ? '<span class="reveal-team-advance">stap vooruit!</span>' : ""}
+        ${advanceLabel ? `<span class="reveal-team-advance">${advanceLabel}</span>` : ""}
       </li>
     `;
   });
@@ -515,8 +540,10 @@ async function tallyAndReveal(index) {
   teams.forEach((team) => {
     const t = tally[team.id];
     const majorityCorrect = t.total > 0 && t.correct / t.total > 0.5;
-    if (majorityCorrect) {
-      team.position = Math.min(team.position + 1, questionsData.questions.length);
+    const step = scoringMode === "proportional" ? (t.total > 0 ? t.correct / t.total : 0) : (majorityCorrect ? 1 : 0);
+    if (step > 0) {
+      const rawPosition = Math.min(team.position + step, questionsData.questions.length);
+      team.position = Math.round(rawPosition * 1000) / 1000; // avoid float drift accumulating over many questions
       updates[`teams/${team.id}/position`] = team.position;
       const camel = document.getElementById(`camel-${team.id}`);
       camel.classList.add("moving");
@@ -546,8 +573,12 @@ function showWinnerScreen() {
   raceScreen.classList.add("hidden");
   winnerScreen.classList.remove("hidden");
 
-  const maxPosition = Math.max(...teams.map((t) => t.position));
-  const winners = teams.filter((t) => t.position === maxPosition);
+  // Round before comparing -- in proportional mode positions are sums of
+  // fractions (e.g. 2/3 + 1/3) and can differ by a tiny float error even
+  // when a tie is really intended.
+  const rounded = (n) => Math.round(n * 1000) / 1000;
+  const maxPosition = Math.max(...teams.map((t) => rounded(t.position)));
+  const winners = teams.filter((t) => rounded(t.position) === maxPosition);
 
   winnerName.textContent =
     winners.length > 1
@@ -585,6 +616,7 @@ async function resumeGame(code) {
     color: t.color,
     position: t.position,
   }));
+  scoringMode = data.scoringMode || "majority"; // older games have no scoringMode saved; default to the original behavior
 
   if (!questionsData) await loadQuestions();
   currentQuestionIndex = data.currentQuestionIndex || 0;

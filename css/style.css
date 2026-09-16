@@ -99,6 +99,35 @@ button {
   cursor: pointer;
 }
 
+#scoring-mode-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+  background: white;
+  border: 1px solid var(--sand-dark);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 20px 0;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+#scoring-mode-row input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+#scoring-mode-row small {
+  display: block;
+  margin-top: 2px;
+  color: #6b5a3f;
+  font-weight: 400;
+}
+
 button:hover { background: #a8551f; }
 
 /* --- Race title (mirrors the mini-join widget on the opposite corner) --- */

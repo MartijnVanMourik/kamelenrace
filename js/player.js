@@ -304,8 +304,12 @@ function showFinished(teams) {
   const teamList = Object.values(teams || {});
   if (teamList.length === 0) return;
 
-  const maxPosition = Math.max(...teamList.map((t) => t.position));
-  const winners = teamList.filter((t) => t.position === maxPosition);
+  // Round before comparing -- in proportional-scoring games positions are
+  // sums of fractions and can differ by a tiny float error even when a tie
+  // is really intended.
+  const rounded = (n) => Math.round(n * 1000) / 1000;
+  const maxPosition = Math.max(...teamList.map((t) => rounded(t.position)));
+  const winners = teamList.filter((t) => rounded(t.position) === maxPosition);
 
   finishedWinner.textContent =
     winners.length > 1

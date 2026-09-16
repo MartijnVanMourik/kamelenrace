@@ -1,10 +1,12 @@
 # De grote kamelenrace
 
-Een Kahoot-stijl quiz waarbij de voortgang van elk team wordt weergegeven als een kamelenrace op het digiboard, in een woestijn-thema. Elk vraagblok waarbij de meerderheid van een team het goed heeft, laat de kameel van dat team een stap vooruit lopen, op de maat van kermismuziek.
+Een Kahoot-stijl quiz waarbij de voortgang van elk team wordt weergegeven als een kamelenrace op het digiboard, in een woestijn-thema. Elk vraagblok laat de kameel van een team vooruit lopen op basis van hoe goed dat team scoorde, op de maat van kermismuziek.
 
 ## Status
 
 Fase 2, uitgebreid getest en werkend, inclusief een belastingtest met bijna 50 gelijktijdige spelers (zie [Belastingtest](#belastingtest--schaal) hieronder). Deelnemers joinen via hun eigen telefoon (URL of QR-code) met een spelcode, kiezen zelf een team (2 t/m 10, geen voorinvulling — een team moet expliciet gekozen worden) en beantwoorden vragen live mee. Firebase Realtime Database synchroniseert host en spelers.
+
+**Twee scoringsmodi:** op het setup-scherm is een schakelaar "Vooruitgang naar verhouding" te vinden. Staat deze uit (standaard), dan loopt een kameel een hele stap vooruit zodra de meerderheid van het team de vraag goed had (het oorspronkelijke gedrag). Staat deze aan, dan loopt de kameel naar rato van het aantal juiste antwoorden — bijv. 6 van de 9 teamleden goed → 2/3 stap vooruit, in plaats van alles-of-niets. De gekozen modus wordt opgeslagen bij het spel zelf, blijft dus ook na een herstart/herstel van het host-scherm hetzelfde, en de voorkeur wordt onthouden voor het volgende spel dat aangemaakt wordt.
 
 **Later aanhaken:** joinen kan niet alleen tijdens de lobby, maar de hele quiz door — een klein QR-code/spelcode-blokje blijft rechtsboven op het host-scherm zichtbaar zolang de race loopt, zodat weggevallen of nog niet aangesloten deelnemers alsnog kunnen meedoen. Wie mid-quiz binnenkomt, doet gewoon mee vanaf de eerstvolgende vraag.
 
@@ -49,7 +51,7 @@ De live versie staat op GitHub Pages: `https://martijnvanmourik.github.io/kamele
 1. Host opent het host-scherm, stelt het aantal teams (2-10) + teamnamen in, klikt "Spel aanmaken".
 2. Er verschijnt een 4-letter spelcode + QR-code. Spelers scannen/typen deze in op `player.html`, vullen hun naam in en kiezen hun team.
 3. Host klikt "Start quiz". Bij elke vraag speelt de kermismuziek als timer; spelers beantwoorden op hun eigen scherm.
-4. Zodra de muziek stopt, telt de host automatisch per team of de meerderheid het goed had (van wie er daadwerkelijk antwoordde — wie wegvalt telt gewoon niet mee) — zo ja, loopt de kameel van dat team een stap vooruit.
+4. Zodra de muziek stopt, telt de host automatisch per team hoeveel deelnemers het goed hadden (van wie er daadwerkelijk antwoordde — wie wegvalt telt gewoon niet mee), en loopt de kameel van dat team vooruit volgens de gekozen scoringsmodus (zie [Status](#status) hierboven).
 5. Na de laatste vraag verschijnt het winnende team (of de winnende teams, bij een gelijke stand) op zowel het host- als het spelerscherm, met een illustratie.
 
 Tijdens de race staat de baan links en een vaste zijbalk rechts (QR/spelcode voor laatkomers, plus óf de actieve vraag óf de uitslag — nooit beide tegelijk, om ruimte te sparen). Op een breed digibord schaalt deze indeling mee met de schermbreedte in plaats van gecentreerd te blijven staan, zodat de kamelen niet halverwege het scherm beginnen en de zijbalk mooi tegen de rechterrand aansluit.
