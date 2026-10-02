@@ -35,10 +35,9 @@
   <p id="questions-status">Vragenset: standaard (AI-thema)</p>
   <div class="team-setup-actions">
     <button id="view-questions-btn" type="button">Vragen bekijken</button>
-    <button id="export-questions-btn" type="button">Vragen exporteren</button>
-    <button id="import-questions-btn" type="button">Vragen importeren</button>
+    <button id="choose-dataset-btn" type="button">Dataset kiezen</button>
+    <button id="import-questions-btn" type="button">Eigen bestand importeren</button>
     <input id="import-questions-file" type="file" accept="application/json" class="hidden">
-    <button id="reset-questions-btn" type="button">Standaardvragen</button>
   </div>
 
   <div id="scoring-mode-row">
@@ -55,13 +54,26 @@
   <button id="create-game-btn">Spel aanmaken</button>
 </div>
 
-<div id="questions-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="questions-modal-title">
-  <div id="questions-modal-card">
-    <div id="questions-modal-header">
+<div id="questions-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="questions-modal-title">
+  <div class="modal-card">
+    <div class="modal-header">
       <h2 id="questions-modal-title"></h2>
-      <button id="questions-modal-close" type="button" aria-label="Sluiten">×</button>
+      <button class="modal-close" type="button" aria-label="Sluiten">×</button>
     </div>
     <ol id="questions-modal-list"></ol>
+    <div class="modal-footer">
+      <button id="export-questions-btn" type="button">Vragen exporteren</button>
+    </div>
+  </div>
+</div>
+
+<div id="datasets-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="datasets-modal-title">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 id="datasets-modal-title">Dataset kiezen</h2>
+      <button class="modal-close" type="button" aria-label="Sluiten">×</button>
+    </div>
+    <ul id="datasets-list"></ul>
   </div>
 </div>
 

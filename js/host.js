@@ -28,7 +28,6 @@ const questionsStatus = document.getElementById("questions-status");
 const exportQuestionsBtn = document.getElementById("export-questions-btn");
 const importQuestionsBtn = document.getElementById("import-questions-btn");
 const importQuestionsFile = document.getElementById("import-questions-file");
-const resetQuestionsBtn = document.getElementById("reset-questions-btn");
 
 const gameCodeDisplay = document.getElementById("game-code-display");
 const joinUrlDisplay = document.getElementById("join-url-display");
@@ -175,13 +174,15 @@ function updateQuestionsStatus() {
   }
 }
 
+const DEFAULT_QUESTIONS_FILE = "questions.json";
+
 async function loadQuestions() {
   const custom = localStorage.getItem("kamelenrace_questions");
   if (custom) {
     questionsData = JSON.parse(custom);
     return;
   }
-  const res = await fetch("data/questions.json");
+  const res = await fetch(`data/${DEFAULT_QUESTIONS_FILE}`);
   questionsData = await res.json();
 }
 
@@ -215,22 +216,24 @@ importQuestionsFile.addEventListener("change", async () => {
   importQuestionsFile.value = "";
 });
 
-resetQuestionsBtn.addEventListener("click", async () => {
-  localStorage.removeItem("kamelenrace_questions");
-  questionsData = null;
-  await loadQuestions();
-  updateQuestionsStatus();
-});
-
 const viewQuestionsBtn = document.getElementById("view-questions-btn");
 const questionsModal = document.getElementById("questions-modal");
 const questionsModalTitle = document.getElementById("questions-modal-title");
 const questionsModalList = document.getElementById("questions-modal-list");
-const questionsModalClose = document.getElementById("questions-modal-close");
 
-function closeQuestionsModal() {
-  questionsModal.classList.add("hidden");
-}
+const chooseDatasetBtn = document.getElementById("choose-dataset-btn");
+const datasetsModal = document.getElementById("datasets-modal");
+const datasetsList = document.getElementById("datasets-list");
+
+const allModals = document.querySelectorAll(".modal");
+allModals.forEach((modal) => {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal || e.target.closest(".modal-close")) modal.classList.add("hidden");
+  });
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") allModals.forEach((modal) => modal.classList.add("hidden"));
+});
 
 viewQuestionsBtn.addEventListener("click", async () => {
   if (!questionsData) await loadQuestions();
@@ -255,12 +258,76 @@ viewQuestionsBtn.addEventListener("click", async () => {
   questionsModal.classList.remove("hidden");
 });
 
-questionsModalClose.addEventListener("click", closeQuestionsModal);
-questionsModal.addEventListener("click", (e) => {
-  if (e.target === questionsModal) closeQuestionsModal();
-});
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeQuestionsModal();
+// A static site cannot list its own data/ folder, so the available datasets
+// are listed in data/datasets.json (add new files there).
+async function fetchDatasets() {
+  const files = await (await fetch("data/datasets.json")).json();
+  const results = await Promise.all(
+    files.map(async (file) => {
+      try {
+        const data = await (await fetch(`data/${file}`)).json();
+        return isValidQuestionsData(data) ? { file, data } : null;
+      } catch {
+        return null;
+      }
+    })
+  );
+  return results.filter(Boolean);
+}
+
+function selectDataset(file, data) {
+  if (file === DEFAULT_QUESTIONS_FILE) {
+    localStorage.removeItem("kamelenrace_questions");
+  } else {
+    localStorage.setItem("kamelenrace_questions", JSON.stringify(data));
+  }
+  questionsData = data;
+  updateQuestionsStatus();
+}
+
+function showDatasetsMessage(text) {
+  datasetsList.innerHTML = "";
+  const li = document.createElement("li");
+  li.textContent = text;
+  datasetsList.appendChild(li);
+}
+
+chooseDatasetBtn.addEventListener("click", async () => {
+  showDatasetsMessage("Laden...");
+  datasetsModal.classList.remove("hidden");
+
+  let datasets = [];
+  try {
+    datasets = await fetchDatasets();
+  } catch {
+    showDatasetsMessage("Kon de datasets niet laden.");
+    return;
+  }
+  if (datasets.length === 0) {
+    showDatasetsMessage("Geen datasets gevonden in data/datasets.json.");
+    return;
+  }
+
+  datasetsList.innerHTML = "";
+  datasets.forEach(({ file, data }) => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "dataset-option";
+
+    const title = document.createElement("span");
+    title.textContent = data.title || file;
+    const count = document.createElement("small");
+    count.textContent = `${data.questions.length} vragen`;
+    btn.append(title, count);
+
+    btn.addEventListener("click", () => {
+      selectDataset(file, data);
+      datasetsModal.classList.add("hidden");
+    });
+    li.appendChild(btn);
+    datasetsList.appendChild(li);
+  });
 });
 
 function makeGameCode() {

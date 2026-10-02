@@ -175,9 +175,9 @@ button {
 
 button:hover { background: #a8551f; }
 
-/* --- Questions overview (setup screen) --- */
+/* --- Modals on the setup screen (questions overview, dataset picker) --- */
 
-#questions-modal {
+.modal {
   position: fixed;
   inset: 0;
   z-index: 100;
@@ -188,7 +188,7 @@ button:hover { background: #a8551f; }
   background: rgba(58, 43, 26, 0.55);
 }
 
-#questions-modal-card {
+.modal-card {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -200,7 +200,7 @@ button:hover { background: #a8551f; }
   text-align: left;
 }
 
-#questions-modal-header {
+.modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -209,12 +209,12 @@ button:hover { background: #a8551f; }
   border-bottom: 1px solid var(--sand-dark);
 }
 
-#questions-modal-title {
+.modal-header h2 {
   margin: 0;
   font-size: 1.15rem;
 }
 
-#questions-modal-close {
+.modal-close {
   flex-shrink: 0;
   width: 32px;
   height: 32px;
@@ -225,8 +225,15 @@ button:hover { background: #a8551f; }
   color: #3a2b1a;
 }
 
-#questions-modal-close:hover {
+.modal-close:hover {
   background: var(--sand-dark);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 20px;
+  border-top: 1px solid var(--sand-dark);
 }
 
 #questions-modal-list {
@@ -260,6 +267,38 @@ button:hover { background: #a8551f; }
 #questions-modal-list ul li.correct {
   background: #dcf3dc;
   font-weight: 700;
+}
+
+#datasets-list {
+  list-style: none;
+  margin: 0;
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.dataset-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  text-align: left;
+  background: var(--sand);
+  color: #3a2b1a;
+}
+
+.dataset-option:hover {
+  background: var(--sand-dark);
+}
+
+.dataset-option small {
+  flex-shrink: 0;
+  color: #6b5a3f;
 }
 
 /* --- Race title (mirrors the mini-join widget on the opposite corner) --- */
