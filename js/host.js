@@ -433,7 +433,28 @@ function listenForPlayers() {
       box.className = "lobby-team-box";
       box.style.borderColor = t.color;
       const names = byTeam[t.id];
-      box.innerHTML = `<strong style="color:${t.color}">${t.name}</strong> (${names.length})<br>${names.join(", ") || "<em>nog niemand</em>"}`;
+
+      const heading = document.createElement("div");
+      const teamName = document.createElement("strong");
+      teamName.style.color = t.color;
+      teamName.textContent = t.name;
+      heading.append(teamName, ` (${names.length})`);
+      box.appendChild(heading);
+
+      const list = document.createElement("div");
+      list.className = "lobby-player-list";
+      if (names.length === 0) {
+        const empty = document.createElement("em");
+        empty.textContent = "nog niemand";
+        list.appendChild(empty);
+      }
+      names.forEach((name) => {
+        const chip = document.createElement("span");
+        chip.className = "lobby-player";
+        chip.textContent = name;
+        list.appendChild(chip);
+      });
+      box.appendChild(list);
       lobbyTeamsEl.appendChild(box);
     });
   });

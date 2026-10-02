@@ -696,6 +696,21 @@ button:hover { background: #a8551f; }
   padding: 12px;
 }
 
+.lobby-player-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.lobby-player {
+  white-space: nowrap;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: var(--sand);
+  font-size: 0.9rem;
+}
+
 #answers-progress {
   margin-top: 10px;
   font-size: 0.9rem;
