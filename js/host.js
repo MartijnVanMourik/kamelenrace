@@ -673,14 +673,20 @@ function computeTeamStep(t) {
   return { step: majorityCorrect ? 1 : 0, label: majorityCorrect ? "stap vooruit!" : "" };
 }
 
+// Team names and answers can originate from Firebase or imported files, so
+// escape them before putting them in innerHTML.
+function escapeHtml(text) {
+  return String(text).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
 function renderRevealPanel(q, tally) {
   const rows = teams.map((team) => {
     const t = tally[team.id];
     const { step, label } = computeTeamStep(t);
     return `
       <li class="reveal-team-row ${step > 0 ? "correct" : ""}">
-        <span class="reveal-team-dot" style="background:${team.color}"></span>
-        <span class="reveal-team-name">${team.name}</span>
+        <span class="reveal-team-dot" style="background:${escapeHtml(team.color)}"></span>
+        <span class="reveal-team-name">${escapeHtml(team.name)}</span>
         <span class="reveal-team-tally">${t.correct}/${t.total} goed</span>
         ${label ? `<span class="reveal-team-advance">${label}</span>` : ""}
       </li>
@@ -690,7 +696,7 @@ function renderRevealPanel(q, tally) {
   questionPanel.classList.add("hidden");
   revealPanel.classList.remove("hidden");
   revealSummary.innerHTML = `
-    <p class="reveal-answer">Juist antwoord: <strong>${q.options[q.correctIndex]}</strong></p>
+    <p class="reveal-answer">Juist antwoord: <strong>${escapeHtml(q.options[q.correctIndex])}</strong></p>
     <ul class="reveal-team-list">${rows.join("")}</ul>
   `;
 }
