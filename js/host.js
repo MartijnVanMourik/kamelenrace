@@ -222,6 +222,47 @@ resetQuestionsBtn.addEventListener("click", async () => {
   updateQuestionsStatus();
 });
 
+const viewQuestionsBtn = document.getElementById("view-questions-btn");
+const questionsModal = document.getElementById("questions-modal");
+const questionsModalTitle = document.getElementById("questions-modal-title");
+const questionsModalList = document.getElementById("questions-modal-list");
+const questionsModalClose = document.getElementById("questions-modal-close");
+
+function closeQuestionsModal() {
+  questionsModal.classList.add("hidden");
+}
+
+viewQuestionsBtn.addEventListener("click", async () => {
+  if (!questionsData) await loadQuestions();
+
+  questionsModalTitle.textContent = `${questionsData.title || "Vragenset"} (${questionsData.questions.length} vragen)`;
+  questionsModalList.innerHTML = "";
+  questionsData.questions.forEach((q) => {
+    const li = document.createElement("li");
+    li.textContent = q.question;
+
+    const options = document.createElement("ul");
+    q.options.forEach((opt, i) => {
+      const optLi = document.createElement("li");
+      optLi.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+      if (i === q.correctIndex) optLi.className = "correct";
+      options.appendChild(optLi);
+    });
+    li.appendChild(options);
+    questionsModalList.appendChild(li);
+  });
+
+  questionsModal.classList.remove("hidden");
+});
+
+questionsModalClose.addEventListener("click", closeQuestionsModal);
+questionsModal.addEventListener("click", (e) => {
+  if (e.target === questionsModal) closeQuestionsModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeQuestionsModal();
+});
+
 function makeGameCode() {
   let code = "";
   for (let i = 0; i < 4; i++) {

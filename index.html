@@ -34,6 +34,7 @@
 
   <p id="questions-status">Vragenset: standaard (AI-thema)</p>
   <div class="team-setup-actions">
+    <button id="view-questions-btn" type="button">Vragen bekijken</button>
     <button id="export-questions-btn" type="button">Vragen exporteren</button>
     <button id="import-questions-btn" type="button">Vragen importeren</button>
     <input id="import-questions-file" type="file" accept="application/json" class="hidden">
@@ -52,6 +53,16 @@
   </div>
 
   <button id="create-game-btn">Spel aanmaken</button>
+</div>
+
+<div id="questions-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="questions-modal-title">
+  <div id="questions-modal-card">
+    <div id="questions-modal-header">
+      <h2 id="questions-modal-title"></h2>
+      <button id="questions-modal-close" type="button" aria-label="Sluiten">×</button>
+    </div>
+    <ol id="questions-modal-list"></ol>
+  </div>
 </div>
 
 <div id="lobby-screen" class="screen hidden">

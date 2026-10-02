@@ -1,0 +1,105 @@
+{
+  "title": "AI in het onderwijs",
+  "questions": [
+    {
+      "question": "Waarop controleer je AI-output volgens de pijler Evalueren?",
+      "options": [
+        "Spelling, lengte en lettertype",
+        "Snelheid, prijs en gebruiksgemak",
+        "Het aantal emoji's per alinea",
+        "Bias, privacyrisico's en correctheid"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "question": "Hoeveel leerlingen deden mee aan het onderzoek uit Stockholm en Hong Kong?",
+      "options": [
+        "268",
+        "2.681",
+        "26.811",
+        "Alle leerlingen van China"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "question": "Wat gebeurde er bij leerlingen die AI gingen gebruiken?",
+      "options": [
+        "Hogere huiswerkscores, maar lagere toetsscores",
+        "Hogere huiswerk- én toetsscores",
+        "Lagere huiswerkscores, maar hogere toetsscores",
+        "Ze kregen allemaal een 10, maar niemand wist waarom"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "question": "Welke leerlingen haalden mét AI toch vergelijkbare toetsscores?",
+      "options": [
+        "Leerlingen met de betaalde versie van ChatGPT",
+        "Leerlingen die AI alleen voor Engels gebruikten",
+        "Leerlingen die ongeveer evenveel tijd aan hun werk bleven besteden",
+        "Leerlingen die hun huiswerk op de bank maakten"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "question": "\"Focus op return on intelligence, niet return on...\"",
+      "options": [
+        "inspiration",
+        "Instagram",
+        "interest",
+        "investment"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "question": "Wanneer zet je AI het sterkst in?",
+      "options": [
+        "AI maakt het werk én geeft er feedback op",
+        "AI levert een opzet van ~80%, de mens maakt het beter",
+        "Alleen als de deadline morgen is",
+        "Als je de toets door AI laat nakijken"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Welke vraag is bij Kiezen (K) vooral relevant voor leerlingen?",
+      "options": [
+        "Gaat het sneller?",
+        "Wordt het resultaat beter?",
+        "Leer ik er meer van?",
+        "Merkt de docent het?"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "question": "Waarom is evalueren (E) voor leerlingen lastiger dan voor docenten?",
+      "options": [
+        "Ze missen nog het referentiekader om te zien of iets klopt",
+        "Ze gebruiken andere AI-tools dan wij",
+        "Ze lezen alles te snel",
+        "AI geeft leerlingen expres foute antwoorden"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "question": "Wat vermeld je volgens de spelregels (S) vooral als je AI hebt gebruikt?",
+      "options": [
+        "Welke AI-tool je gebruikte",
+        "Hoe laat je hem gebruikte",
+        "Niets, zolang het resultaat goed is",
+        "Hoe je AI gebruikte"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "question": "Wat betekent \"van product naar proces\" voor ons als docent?",
+      "options": [
+        "We toetsen leerlingen voortaan alleen nog mondeling",
+        "We beoordelen ook hoe een leerling tot het resultaat kwam",
+        "We verbieden AI bij alle inleveropdrachten",
+        "We laten AI voortaan het nakijkwerk doen"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}

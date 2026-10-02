@@ -29,6 +29,7 @@ js/firebase-config.js   Firebase-configuratie + init
 js/host.js              Host-logica: spel aanmaken, lobby, quizverloop, scoretelling, herstel
 js/player.js            Speler-logica: joinen, antwoorden, reveal volgen, herstel, timeouts
 data/questions.json     Standaard vragenset (AI-thema)
+data/vragen-ai-onderwijs.json  Voorbeeld-importbestand: 10 vragen over AI in het onderwijs
 assets/kamelenrace.mp3  Kermismuziek, gebruikt als vraag-timer
 assets/spectators.png   Publieksillustratie voor de racebaan
 assets/winner.jpg       Illustratie voor het winnaarsscherm
@@ -64,7 +65,7 @@ De baan heeft een vaste hoogte voor 10 teams, ongeacht het werkelijke aantal —
 
 ## Eigen vragen aanleveren
 
-Op het setup-scherm kun je een eigen vragenset importeren via "Vragen importeren" (een `.json`-bestand in het formaat hieronder) — geen redeploy nodig, blijft bewaard in de browser tot je op "Standaardvragen" klikt. Gebruik "Vragen exporteren" om de actief geladen set (of de standaardset) als bestand te downloaden, bijvoorbeeld als startpunt om aan te passen. Hetzelfde exporteren/importeren kan voor teamnamen ("Teamnamen exporteren/importeren").
+Op het setup-scherm kun je een eigen vragenset importeren via "Vragen importeren" (een `.json`-bestand in het formaat hieronder) — geen redeploy nodig, blijft bewaard in de browser tot je op "Standaardvragen" klikt. Met "Vragen bekijken" open je een overzicht van de actieve vragenset, met het juiste antwoord van elke vraag groen gemarkeerd (sluiten kan met het kruisje, een klik naast het venster of Escape). In `data/vragen-ai-onderwijs.json` staat een kant-en-klaar voorbeeld om te importeren. Gebruik "Vragen exporteren" om de actief geladen set (of de standaardset) als bestand te downloaden, bijvoorbeeld als startpunt om aan te passen. Hetzelfde exporteren/importeren kan voor teamnamen ("Teamnamen exporteren/importeren").
 
 Los daarvan kan `data/questions.json` in de repo ook direct vervangen worden — dat wordt de nieuwe standaardset voor iedereen die geen eigen bestand importeert.
 
