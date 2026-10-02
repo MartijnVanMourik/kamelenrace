@@ -58,6 +58,13 @@ proportionalModeToggle.addEventListener("change", () => {
   localStorage.setItem(SCORING_MODE_KEY, proportionalModeToggle.checked ? "proportional" : "majority");
 });
 
+const shuffleToggle = document.getElementById("shuffle-toggle");
+const SHUFFLE_KEY = "kamelenrace_shuffle_questions";
+shuffleToggle.checked = localStorage.getItem(SHUFFLE_KEY) === "true";
+shuffleToggle.addEventListener("change", () => {
+  localStorage.setItem(SHUFFLE_KEY, String(shuffleToggle.checked));
+});
+
 const scoringModeInfoBtn = document.getElementById("scoring-mode-info-btn");
 const scoringModeInfoPopup = document.getElementById("scoring-mode-info-popup");
 scoringModeInfoBtn.addEventListener("click", (e) => {
@@ -330,6 +337,15 @@ chooseDatasetBtn.addEventListener("click", async () => {
   });
 });
 
+function shuffled(items) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 function makeGameCode() {
   let code = "";
   for (let i = 0; i < 4; i++) {
@@ -349,7 +365,10 @@ function buildTeamsFromInputs() {
 }
 
 createGameBtn.addEventListener("click", async () => {
-  if (!questionsData) await loadQuestions();
+  await loadQuestions(); // always start from the unshuffled active set
+  if (shuffleToggle.checked) {
+    questionsData = { ...questionsData, questions: shuffled(questionsData.questions) };
+  }
   teams = buildTeamsFromInputs();
   saveTeamSetup(teams.length, teams.map((t) => t.name));
   scoringMode = proportionalModeToggle.checked ? "proportional" : "majority";
@@ -365,6 +384,7 @@ createGameBtn.addEventListener("click", async () => {
     status: "lobby",
     currentQuestionIndex: 0,
     totalQuestions: questionsData.questions.length,
+    questions: questionsData.questions, // in play order, so players see exactly what the host plays
     teams: teamsObj,
     scoringMode,
     createdAt: firebase.database.ServerValue.TIMESTAMP,
@@ -719,6 +739,7 @@ function showWinnerScreen() {
 restartBtn.addEventListener("click", () => {
   if (gameRef) gameRef.off();
   history.replaceState(null, "", location.pathname);
+  questionsData = null; // reload the active set, not this game's (possibly shuffled) order
   winnerScreen.classList.add("hidden");
   setupScreen.classList.remove("hidden");
 });
@@ -748,7 +769,11 @@ async function resumeGame(code) {
   }));
   scoringMode = data.scoringMode || "majority"; // older games have no scoringMode saved; default to the original behavior
 
-  if (!questionsData) await loadQuestions();
+  if (data.questions) {
+    questionsData = { questions: Object.values(data.questions) };
+  } else if (!questionsData) {
+    await loadQuestions(); // games created before questions were stored in the game
+  }
   currentQuestionIndex = data.currentQuestionIndex || 0;
 
   setupScreen.classList.add("hidden");

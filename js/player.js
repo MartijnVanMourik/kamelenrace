@@ -49,6 +49,12 @@ function showScreen(el) {
 }
 
 async function loadQuestions() {
+  const snap = await withTimeout(gameRef.child("questions").once("value"));
+  if (snap.val()) {
+    questionsData = { questions: Object.values(snap.val()) };
+    return;
+  }
+  // games created before questions were stored in the game
   const res = await fetch("data/questions.json");
   questionsData = await res.json();
 }

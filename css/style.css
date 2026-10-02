@@ -100,7 +100,14 @@ button {
   cursor: pointer;
 }
 
-#scoring-mode-row {
+#setting-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.setting-row {
   position: relative;
   display: flex;
   align-items: center;
@@ -109,11 +116,11 @@ button {
   border: 1px solid var(--sand-dark);
   border-radius: 8px;
   padding: 8px 14px;
-  margin: 20px 0;
   font-size: 0.9rem;
 }
 
-#scoring-mode-row #scoring-mode-label {
+/* #setup-screen prefix so this beats the generic "#setup-screen label" rule */
+#setup-screen .setting-label {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -123,7 +130,7 @@ button {
   cursor: pointer;
 }
 
-#scoring-mode-label input {
+.setting-label input {
   width: 18px;
   height: 18px;
   margin: 0;
