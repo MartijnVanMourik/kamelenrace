@@ -36,6 +36,7 @@ data/datasets.json     Lijst met de vragensets die op het setup-scherm te kiezen
 assets/kamelenrace.mp3  Kermismuziek, gebruikt als vraag-timer
 assets/spectators.png   Publieksillustratie voor de racebaan
 assets/winner.jpg       Illustratie voor het winnaarsscherm
+assets/favicon.svg/.png Tab-icoon (kameel) voor beide pagina's
 ```
 
 ## Lokaal draaien
