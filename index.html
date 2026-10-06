@@ -30,6 +30,7 @@
   </label>
   <div id="team-name-inputs"></div>
   <div class="team-setup-actions">
+    <button id="choose-teams-btn" type="button">Teams kiezen</button>
     <button id="export-teams-btn" type="button">Teamnamen exporteren</button>
     <button id="import-teams-btn" type="button">Teamnamen importeren</button>
     <input id="import-teams-file" type="file" accept="application/json" class="hidden">
@@ -79,13 +80,23 @@
   </div>
 </div>
 
+<div id="teamsets-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="teamsets-modal-title">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 id="teamsets-modal-title">Teams kiezen</h2>
+      <button class="modal-close" type="button" aria-label="Sluiten">×</button>
+    </div>
+    <ul id="teamsets-list" class="set-list"></ul>
+  </div>
+</div>
+
 <div id="datasets-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="datasets-modal-title">
   <div class="modal-card">
     <div class="modal-header">
       <h2 id="datasets-modal-title">Dataset kiezen</h2>
       <button class="modal-close" type="button" aria-label="Sluiten">×</button>
     </div>
-    <ul id="datasets-list"></ul>
+    <ul id="datasets-list" class="set-list"></ul>
   </div>
 </div>
 

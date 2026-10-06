@@ -141,15 +141,28 @@ exportTeamsBtn.addEventListener("click", () => {
 
 importTeamsBtn.addEventListener("click", () => importTeamsFile.click());
 
+function isValidTeamsData(data) {
+  return (
+    data &&
+    Array.isArray(data.names) &&
+    data.names.length > 0 &&
+    data.names.every((name) => typeof name === "string")
+  );
+}
+
+function applyTeamNames(names) {
+  teamCountSelect.value = Math.min(Math.max(names.length, 2), 10);
+  saveTeamSetup(names.length, names);
+  renderTeamNameInputs();
+}
+
 importTeamsFile.addEventListener("change", async () => {
   const file = importTeamsFile.files[0];
   if (!file) return;
   try {
     const data = JSON.parse(await file.text());
-    if (!data.names || !Array.isArray(data.names)) throw new Error("invalid");
-    teamCountSelect.value = Math.min(Math.max(data.names.length, 2), 10);
-    saveTeamSetup(data.names.length, data.names);
-    renderTeamNameInputs();
+    if (!isValidTeamsData(data)) throw new Error("invalid");
+    applyTeamNames(data.names);
   } catch {
     alert("Kon dit bestand niet lezen als teamnamen-export.");
   }
@@ -232,6 +245,10 @@ const chooseDatasetBtn = document.getElementById("choose-dataset-btn");
 const datasetsModal = document.getElementById("datasets-modal");
 const datasetsList = document.getElementById("datasets-list");
 
+const chooseTeamsBtn = document.getElementById("choose-teams-btn");
+const teamsetsModal = document.getElementById("teamsets-modal");
+const teamsetsList = document.getElementById("teamsets-list");
+
 const allModals = document.querySelectorAll(".modal");
 allModals.forEach((modal) => {
   modal.addEventListener("click", (e) => {
@@ -265,21 +282,67 @@ viewQuestionsBtn.addEventListener("click", async () => {
   questionsModal.classList.remove("hidden");
 });
 
-// A static site cannot list its own data/ folder, so the available datasets
-// are listed in data/datasets.json (add new files there).
-async function fetchDatasets() {
-  const files = await (await fetch("data/datasets.json")).json();
+// A static site cannot list its own data/ folder, so the available sets are
+// listed in a manifest file (add new files there). Used for both the question
+// sets (data/datasets.json) and the team sets (data/teamsets.json).
+async function fetchSets(manifest, isValid) {
+  const files = await (await fetch(manifest)).json();
   const results = await Promise.all(
     files.map(async (file) => {
       try {
         const data = await (await fetch(`data/${file}`)).json();
-        return isValidQuestionsData(data) ? { file, data } : null;
+        return isValid(data) ? { file, data } : null;
       } catch {
         return null;
       }
     })
   );
   return results.filter(Boolean);
+}
+
+function showPickerMessage(list, text) {
+  list.innerHTML = "";
+  const li = document.createElement("li");
+  li.textContent = text;
+  list.appendChild(li);
+}
+
+async function openSetPicker({ modal, list, manifest, isValid, detail, onSelect }) {
+  showPickerMessage(list, "Laden...");
+  modal.classList.remove("hidden");
+
+  let sets = [];
+  try {
+    sets = await fetchSets(manifest, isValid);
+  } catch {
+    showPickerMessage(list, "Kon de lijst niet laden.");
+    return;
+  }
+  if (sets.length === 0) {
+    showPickerMessage(list, `Niets gevonden in ${manifest}.`);
+    return;
+  }
+
+  list.innerHTML = "";
+  sets.forEach(({ file, data }) => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "dataset-option";
+
+    const title = document.createElement("span");
+    title.textContent = data.title || file;
+    const info = document.createElement("small");
+    info.textContent = detail(data);
+    btn.append(title, info);
+
+    btn.addEventListener("click", () => {
+      onSelect(file, data);
+      modal.classList.add("hidden");
+    });
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
 }
 
 function selectDataset(file, data) {
@@ -292,50 +355,27 @@ function selectDataset(file, data) {
   updateQuestionsStatus();
 }
 
-function showDatasetsMessage(text) {
-  datasetsList.innerHTML = "";
-  const li = document.createElement("li");
-  li.textContent = text;
-  datasetsList.appendChild(li);
-}
+chooseDatasetBtn.addEventListener("click", () =>
+  openSetPicker({
+    modal: datasetsModal,
+    list: datasetsList,
+    manifest: "data/datasets.json",
+    isValid: isValidQuestionsData,
+    detail: (data) => `${data.questions.length} vragen`,
+    onSelect: selectDataset,
+  })
+);
 
-chooseDatasetBtn.addEventListener("click", async () => {
-  showDatasetsMessage("Laden...");
-  datasetsModal.classList.remove("hidden");
-
-  let datasets = [];
-  try {
-    datasets = await fetchDatasets();
-  } catch {
-    showDatasetsMessage("Kon de datasets niet laden.");
-    return;
-  }
-  if (datasets.length === 0) {
-    showDatasetsMessage("Geen datasets gevonden in data/datasets.json.");
-    return;
-  }
-
-  datasetsList.innerHTML = "";
-  datasets.forEach(({ file, data }) => {
-    const li = document.createElement("li");
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "dataset-option";
-
-    const title = document.createElement("span");
-    title.textContent = data.title || file;
-    const count = document.createElement("small");
-    count.textContent = `${data.questions.length} vragen`;
-    btn.append(title, count);
-
-    btn.addEventListener("click", () => {
-      selectDataset(file, data);
-      datasetsModal.classList.add("hidden");
-    });
-    li.appendChild(btn);
-    datasetsList.appendChild(li);
-  });
-});
+chooseTeamsBtn.addEventListener("click", () =>
+  openSetPicker({
+    modal: teamsetsModal,
+    list: teamsetsList,
+    manifest: "data/teamsets.json",
+    isValid: isValidTeamsData,
+    detail: (data) => `${data.names.length} teams`,
+    onSelect: (file, data) => applyTeamNames(data.names),
+  })
+);
 
 function shuffled(items) {
   const copy = [...items];
