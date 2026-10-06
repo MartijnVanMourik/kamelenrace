@@ -4,7 +4,7 @@ const TEAM_COLORS = [
 ];
 // Shown in the lobby as the easy-to-type address. The QR code still encodes the
 // full per-game join link; this short link must point to the player page.
-const SHORT_JOIN_URL = "http://tinyurl.com/hfm-cam";
+const SHORT_JOIN_URL = "tinyurl.com/hfm-cam";
 const GAME_CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I to avoid confusion
 
 let questionsData = null;
