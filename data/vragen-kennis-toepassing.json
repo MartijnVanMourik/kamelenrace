@@ -1,0 +1,125 @@
+{
+  "title": "Kennis- en toepassingsvragen",
+  "questions": [
+    {
+      "question": "Wat moet je volgens de pijler \"Begrijpen hoe het werkt\" snappen over AI?",
+      "options": [
+        "Dat AI feiten opzoekt in een grote database",
+        "Dat AI leert van elk gesprek dat je voert",
+        "Dat AI de betekenis van tekst echt begrijpt",
+        "Dat AI patronen herkent en kan hallucineren"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "question": "Vier leerlingen gebruiken AI bij hun huiswerk. Wie loopt volgens het onderzoek het meeste risico op leerverlies?",
+      "options": [
+        "Sanne, die even lang doorwerkt als vroeger",
+        "Daan, die nu in de helft van de tijd klaar is",
+        "Noor, die AI alleen om extra uitleg vraagt",
+        "Ravi, die zich door AI laat overhoren"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Een leerling wil AI gebruiken voor een samenvatting: het gaat sneller en het resultaat is beter. Welke K-vraag moet hij zich nog stellen?",
+      "options": [
+        "Mag dit volgens de afspraken van school?",
+        "Hoe schrijf ik hier een goede prompt voor?",
+        "Leer ik hier evenveel of meer van?",
+        "Klopt de samenvatting die AI maakt?"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "question": "Een leerling kan zijn door AI verbeterde betoog niet uitleggen in eigen woorden. Welke E-vraag gaat hier mis?",
+      "options": [
+        "Klopt het?",
+        "Is het nog van mij?",
+        "Is het goed genoeg?",
+        "Leer ik er meer van?"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Wat moet je volgens de spelregels (S) vooral vermelden als je AI hebt gebruikt?",
+      "options": [
+        "Welke AI-tool je hebt gebruikt",
+        "Op welk moment je AI gebruikte",
+        "Hoe je AI gebruikte en wat je zelf deed",
+        "Hoeveel tijd AI je heeft bespaard"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "question": "Welke situatie past bij \"AI als outsourcer\"?",
+      "options": [
+        "Leerling laat zich door AI overhoren",
+        "Leerling vraagt AI om andere uitleg",
+        "Leerling laat AI de spelling checken",
+        "Leerling levert AI-werk ongewijzigd in"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "question": "Wat ontbreekt in deze prompt volgens de I: \"Maak voor havo 4 een oefentoets van 10 vragen over fotosynthese\"?",
+      "options": [
+        "Doel en doelgroep",
+        "Context en doel",
+        "Niets, hij is compleet",
+        "Rol en voorbeeld"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "question": "Een mentor wil met AI een rapportgesprek voorbereiden, met leerlinggegevens. Wat zegt de S?",
+      "options": [
+        "Prima, als je het achteraf meldt",
+        "Nooit, AI hoort niet bij leerlingzaken",
+        "Veilige tool én zonder persoonsgegevens",
+        "Prima, als de tool betrouwbaar is"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "question": "Wat is de 80/20-vuistregel bij Evalueren?",
+      "options": [
+        "80% zelf doen, 20% met AI",
+        "80% van AI-output klopt",
+        "80% met AI, 20% zelf afmaken",
+        "80% van de tijd zonder AI"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "question": "Welke spelregel is belangrijk, naast privacy en transparantie?",
+      "options": [
+        "Gebruik altijd het nieuwste model",
+        "Maximaal één uur AI per dag",
+        "Alleen AI buiten schooltijd",
+        "Denk aan de ecologische impact"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "question": "Je twijfelt of een leerling zijn werkstuk zelf maakte. Wat raadt de site aan?",
+      "options": [
+        "Laat hem de inhoud ter plekke uitleggen",
+        "Haal het door een AI-detector",
+        "Meld het direct als fraude",
+        "Laat het werkstuk opnieuw maken"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "question": "Je wilt AI feedback laten geven op leerlingwerk. Wat moet je volgens de spelregels eerst doen?",
+      "options": [
+        "Ouders om toestemming vragen",
+        "Het leerlingwerk anonimiseren",
+        "Een betaald account aanschaffen",
+        "De leerling laten meekijken"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}

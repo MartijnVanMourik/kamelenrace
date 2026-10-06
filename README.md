@@ -32,6 +32,7 @@ js/host.js              Host-logica: spel aanmaken, lobby, quizverloop, scoretel
 js/player.js            Speler-logica: joinen, antwoorden, reveal volgen, herstel, timeouts
 data/questions.json     Standaard vragenset (AI-thema)
 data/vragen-ai-onderwijs.json  Tweede vragenset: 10 vragen over AI in het onderwijs
+data/vragen-kennis-toepassing.json  Derde vragenset: 12 kennis- en toepassingsvragen
 data/datasets.json     Lijst met de vragensets die op het setup-scherm te kiezen zijn
 data/teamsets.json     Lijst met de teamsets die op het setup-scherm te kiezen zijn
 data/teams-vakgroepen.json  Teamset met 10 teams (vakgroepen)
@@ -74,7 +75,7 @@ De baan heeft een vaste hoogte voor 10 teams, ongeacht het werkelijke aantal —
 Op het setup-scherm zijn drie knoppen voor de vragenset:
 
 - **Vragen bekijken** opent een overzicht van de actieve vragenset, met het juiste antwoord van elke vraag groen gemarkeerd. Onderin dat venster staat ook **Vragen exporteren**, om de actieve set als `.json`-bestand te downloaden (handig als startpunt om aan te passen). Sluiten kan met het kruisje, een klik naast het venster of Escape.
-- **Dataset kiezen** toont alle vragensets die in de map `data/` staan (nu: de standaardset en "AI in het onderwijs") met het aantal vragen; een klik activeert die set. Een statische site kan zelf geen mapinhoud opvragen, dus de beschikbare sets staan in `data/datasets.json`: wie een nieuwe vragenset als bestand in `data/` zet, voegt de bestandsnaam daar toe aan de lijst.
+- **Dataset kiezen** toont alle vragensets die in de map `data/` staan (nu: de standaardset, "AI in het onderwijs" en "Kennis- en toepassingsvragen") met het aantal vragen; een klik activeert die set. Een statische site kan zelf geen mapinhoud opvragen, dus de beschikbare sets staan in `data/datasets.json`: wie een nieuwe vragenset als bestand in `data/` zet, voegt de bestandsnaam daar toe aan de lijst.
 - **Eigen bestand importeren** laadt een `.json`-bestand van je eigen computer (formaat hieronder).
 
 De gekozen of geïmporteerde set blijft bewaard in de browser; kies via Dataset kiezen de standaardset ("AI Quiz") om daar weer naar terug te gaan. Geen redeploy nodig. Voor teams werkt het op dezelfde manier: **Teams kiezen** toont de teamsets uit `data/teamsets.json` (nu: "Vakgroepen", 10 teams) en vult met één klik aantal en namen in; "Teamnamen exporteren/importeren" blijft beschikbaar voor eigen bestanden. Een teambestand is `{ "title": "Naam van de set", "names": ["Team A", "Team B", ...] }` (2 tot 10 namen; `title` is optioneel). Een nieuw teambestand in `data/` wordt pas zichtbaar na het toevoegen van de bestandsnaam aan `data/teamsets.json`.
