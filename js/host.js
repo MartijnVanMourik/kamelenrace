@@ -449,7 +449,7 @@ function showLobbyScreen() {
   const joinUrl = getJoinUrl();
   joinUrlDisplay.textContent = SHORT_JOIN_URL;
   qrCodeEl.innerHTML = "";
-  new QRCode(qrCodeEl, { text: joinUrl, width: 220, height: 220 });
+  new QRCode(qrCodeEl, { text: joinUrl, width: 300, height: 300 });
 
   listenForPlayers();
 }
