@@ -2,6 +2,9 @@ const TEAM_COLORS = [
   "#e74c3c", "#3498db", "#2ecc71", "#f39c12", "#9b59b6",
   "#1abc9c", "#e91e8c", "#795548", "#607d8b", "#8bc34a",
 ];
+// Shown in the lobby as the easy-to-type address. The QR code still encodes the
+// full per-game join link; this short link must point to the player page.
+const SHORT_JOIN_URL = "http://tinyurl.com/hfm-cam";
 const GAME_CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I to avoid confusion
 
 let questionsData = null;
@@ -444,7 +447,7 @@ function showLobbyScreen() {
 
   gameCodeDisplay.textContent = gameCode;
   const joinUrl = getJoinUrl();
-  joinUrlDisplay.textContent = joinUrl;
+  joinUrlDisplay.textContent = SHORT_JOIN_URL;
   qrCodeEl.innerHTML = "";
   new QRCode(qrCodeEl, { text: joinUrl, width: 220, height: 220 });
 
