@@ -33,6 +33,7 @@ js/player.js            Speler-logica: joinen, antwoorden, reveal volgen, herste
 data/questions.json     Standaard vragenset (AI-thema)
 data/vragen-ai-onderwijs.json  Tweede vragenset: 10 vragen over AI in het onderwijs
 data/datasets.json     Lijst met de vragensets die op het setup-scherm te kiezen zijn
+data/teams-vakgroepen.json  Voorbeeld-importbestand met 10 teams (vakgroepen), te laden via Teamnamen importeren
 assets/kamelenrace.mp3  Kermismuziek, gebruikt als vraag-timer
 assets/spectators.png   Publieksillustratie voor de racebaan
 assets/winner.jpg       Illustratie voor het winnaarsscherm
